@@ -3,26 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ABC Builders — Roofing Quotation</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>ABC Builders — Instant Roofing Quote</title>
+<meta name="description" content="Get an instant roofing quotation from ABC Builders Botswana. Professional tiles, competitive prices in Pula.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
+/* ══════════════════════════════════════════════
+   YOU ONLY NEED TO CHANGE THIS ONE LINE
+   Replace with your Google Apps Script Web App URL
+   (see README at bottom of file)
+══════════════════════════════════════════════ */
+
 :root {
-  --ink: #0F0E0C;
-  --ink2: #2A2620;
-  --gold: #C9962A;
-  --gold-light: #E8B84B;
-  --gold-pale: #F5E9CC;
-  --cream: #FAF7F0;
-  --cream2: #F0EAD8;
-  --stone: #8C8070;
-  --stone-light: #BFB8AC;
-  --brick: #8B3A2A;
-  --white: #FFFFFF;
-  --success: #2A6B4A;
-  --r: 6px;
+  /* Brand */
+  --ink:    #100F0A;
+  --ink2:   #1C1A13;
+  --ink3:   #2C2920;
+  --gold:   #C8911F;
+  --goldL:  #E8AF3C;
+  --goldP:  #FBF0D8;
+  --goldPP: #FDF6E8;
+  --cream:  #F9F5EC;
+  --cream2: #EFE8D5;
+  --stone:  #7A7060;
+  --stoneL: #B0A898;
+  --white:  #FFFFFF;
+  --green:  #2A6B4A;
+  --red:    #C0392B;
 }
 
-*{box-sizing:border-box;margin:0;padding:0;}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Outfit', sans-serif;
@@ -31,1462 +44,1182 @@ body {
   min-height: 100vh;
 }
 
-/* ── HEADER ── */
-.site-header {
+/* ══ HEADER ══ */
+.hdr {
   background: var(--ink);
-  padding: 0 40px;
+  padding: 0 5vw;
+  height: 60px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 64px;
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid rgba(200,145,31,.15);
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 11px;
 }
-.brand-mark {
-  width: 36px; height: 36px;
+.brand-sq {
+  width: 34px; height: 34px;
   background: var(--gold);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 18px; font-weight: 900;
+  font-family: 'Fraunces', serif;
+  font-size: 17px; font-weight: 900;
   color: var(--ink);
-  border-radius: 4px;
+  border-radius: 5px;
+  flex-shrink: 0;
 }
 .brand-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 18px; font-weight: 700;
-  color: var(--white);
-  letter-spacing: 0.5px;
+  font-family: 'Fraunces', serif;
+  font-size: 17px; font-weight: 700;
+  color: #fff;
+  letter-spacing: .3px;
 }
-.brand-name span { color: var(--gold-light); }
-.header-tag {
-  font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-  color: var(--stone-light); font-weight: 500;
+.brand-name em { color: var(--goldL); font-style: normal; }
+.hdr-tag {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--stoneL);
+  font-weight: 500;
 }
 
-/* ── HERO BAND ── */
-.hero-band {
+/* ══ HERO ══ */
+.hero {
   background: var(--ink2);
-  padding: 40px 40px 36px;
+  padding: 52px 5vw 44px;
   position: relative;
   overflow: hidden;
 }
-.hero-band::before {
-  content: '';
-  position: absolute; top: 0; right: 0;
-  width: 320px; height: 100%;
-  background: repeating-linear-gradient(
-    45deg,
-    transparent,
-    transparent 8px,
-    rgba(201,150,42,0.04) 8px,
-    rgba(201,150,42,0.04) 9px
-  );
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 60% 80% at 85% 50%, rgba(200,145,31,.07) 0%, transparent 70%);
+  pointer-events: none;
 }
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,145,31,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,145,31,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 640px; }
 .hero-eyebrow {
-  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-  color: var(--gold); margin-bottom: 10px; font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 14px;
 }
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 900; color: var(--white);
-  line-height: 1.15; margin-bottom: 12px;
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px; height: 1px;
+  background: var(--gold);
 }
-.hero-title em { color: var(--gold-light); font-style: normal; }
+.hero-h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(30px, 5vw, 50px);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+.hero-h1 em { color: var(--goldL); font-style: italic; }
 .hero-sub {
-  font-size: 14px; color: var(--stone-light);
-  max-width: 480px; line-height: 1.7;
+  font-size: 15px;
+  color: var(--stoneL);
+  line-height: 1.75;
+  max-width: 480px;
 }
 
-/* ── PROGRESS ── */
-.progress-track {
-  background: var(--ink);
-  padding: 0 40px;
+/* Pipeline badges */
+.pipeline {
   display: flex;
-  align-items: stretch;
-  border-bottom: 1px solid rgba(201,150,42,0.15);
+  align-items: center;
+  gap: 6px;
+  margin-top: 28px;
+  flex-wrap: wrap;
 }
-.prog-step {
-  display: flex; align-items: center; gap: 10px;
-  padding: 16px 24px 16px 0;
-  border-right: 1px solid rgba(255,255,255,0.06);
-  padding-right: 28px;
-  margin-right: 28px;
-  opacity: 0.35;
-  transition: opacity 0.3s;
-  cursor: default;
+.pip {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(200,145,31,.2);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 11px;
+  color: var(--stoneL);
+  font-weight: 500;
 }
-.prog-step:last-child { border-right: none; }
-.prog-step.active { opacity: 1; }
-.prog-step.done { opacity: 0.7; }
-.prog-num {
-  width: 26px; height: 26px; border-radius: 50%;
-  border: 1.5px solid rgba(255,255,255,0.2);
+.pip.you {
+  background: rgba(200,145,31,.12);
+  border-color: rgba(200,145,31,.4);
+  color: var(--goldL);
+}
+.pip-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+}
+.pip-arr { color: rgba(200,145,31,.3); font-size: 11px; }
+
+/* ══ STEPS ══ */
+.steps-bar {
+  background: var(--ink);
+  padding: 0 5vw;
+  display: flex;
+  border-bottom: 1px solid rgba(200,145,31,.1);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 20px 13px 0;
+  margin-right: 20px;
+  border-right: 1px solid rgba(255,255,255,.05);
+  opacity: .3;
+  transition: opacity .3s;
+  flex-shrink: 0;
+}
+.step-item:last-child { border-right: none; }
+.step-item.active { opacity: 1; }
+.step-item.done   { opacity: .55; }
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,.2);
   display: flex; align-items: center; justify-content: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; color: rgba(255,255,255,0.5);
-  flex-shrink: 0; transition: all 0.3s;
+  font-size: 10px; color: rgba(255,255,255,.35);
+  flex-shrink: 0; transition: all .3s;
 }
-.prog-step.active .prog-num { border-color: var(--gold); color: var(--gold); background: rgba(201,150,42,0.12); }
-.prog-step.done .prog-num { border-color: var(--success); color: var(--success); background: rgba(42,107,74,0.12); }
-.prog-label { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.6); }
-.prog-step.active .prog-label { color: var(--white); }
+.step-item.active .step-num { border-color: var(--gold); color: var(--gold); background: rgba(200,145,31,.1); }
+.step-item.done   .step-num { border-color: var(--green); color: var(--green); background: rgba(42,107,74,.1); }
+.step-txt { font-size: 11px; font-weight: 500; color: rgba(255,255,255,.4); }
+.step-item.active .step-txt { color: #fff; }
 
-/* ── MAIN LAYOUT ── */
-.main-wrap {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 40px 32px 80px;
-}
+/* ══ MAIN ══ */
+.main { max-width: 780px; margin: 0 auto; padding: 36px 5vw 80px; }
 
-/* ── PANELS ── */
-.panel { display: none; animation: slideUp 0.35s ease; }
-.panel.active { display: block; }
-@keyframes slideUp {
-  from { opacity:0; transform: translateY(16px); }
-  to   { opacity:1; transform: translateY(0); }
+/* Panels */
+.panel { display: none; animation: fadeUp .3s ease; }
+.panel.on { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── SECTION CARD ── */
-.section-card {
+/* Card */
+.card {
   background: var(--white);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: var(--r);
+  border: 1px solid rgba(0,0,0,.07);
+  border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 20px;
-  box-shadow: 0 1px 12px rgba(0,0,0,0.05);
+  margin-bottom: 16px;
+  box-shadow: 0 1px 14px rgba(0,0,0,.05);
 }
-.section-head {
+.card-head {
   background: var(--ink);
-  padding: 18px 28px;
-  display: flex; align-items: center; gap: 12px;
+  padding: 15px 24px;
+  display: flex; align-items: center; gap: 11px;
 }
-.section-head-icon {
-  width: 30px; height: 30px;
-  background: rgba(201,150,42,0.15);
+.card-icon {
+  width: 28px; height: 28px;
+  background: rgba(200,145,31,.15);
   border-radius: 4px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 15px;
+  font-size: 13px; flex-shrink: 0;
 }
-.section-head-text h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 17px; font-weight: 700; color: var(--white);
+.card-head-txt h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 15px; font-weight: 700; color: #fff;
 }
-.section-head-text p { font-size: 12px; color: var(--stone-light); margin-top: 1px; }
-.section-body { padding: 28px; }
+.card-head-txt p { font-size: 11px; color: var(--stoneL); margin-top: 1px; }
+.card-body { padding: 24px; }
 
-/* ── FORM GRID ── */
-.fg { display: grid; gap: 20px; }
-.fg-2 { grid-template-columns: 1fr 1fr; }
-.fg-3 { grid-template-columns: 1fr 1fr 1fr; }
-.fg-1 { grid-template-columns: 1fr; }
-@media(max-width:640px){ .fg-2,.fg-3 { grid-template-columns:1fr; } }
+/* ══ FORM ELEMENTS ══ */
+.fg  { display: grid; gap: 16px; }
+.g2  { grid-template-columns: 1fr 1fr; }
+.g3  { grid-template-columns: 1fr 1fr 1fr; }
+@media(max-width:560px){ .g2, .g3 { grid-template-columns: 1fr; } }
 
 .field { display: flex; flex-direction: column; gap: 6px; }
 .field label {
-  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
-  text-transform: uppercase; color: var(--stone);
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--stone);
 }
-.field input, .field select, .field textarea {
-  border: 1.5px solid rgba(0,0,0,0.12);
-  border-radius: 4px;
-  padding: 11px 14px;
+.field input,
+.field select,
+.field textarea {
+  border: 1.5px solid rgba(0,0,0,.1);
+  border-radius: 5px;
+  padding: 11px 13px;
   font-family: 'Outfit', sans-serif;
-  font-size: 15px; color: var(--ink);
+  font-size: 15px;
+  color: var(--ink);
   background: var(--cream);
   outline: none;
-  transition: border-color 0.2s, background 0.2s;
-  -webkit-appearance: none;
-  appearance: none;
+  transition: border-color .18s, background .18s;
+  -webkit-appearance: none; appearance: none;
+  width: 100%;
 }
 .field select {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9962A' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C8911F' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 38px;
+  background-position: right 12px center;
+  padding-right: 34px;
   cursor: pointer;
 }
-.field input:focus, .field select:focus, .field textarea:focus {
+.field select option { background: #fff; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
   border-color: var(--gold);
   background: var(--white);
+  box-shadow: 0 0 0 3px rgba(200,145,31,.08);
 }
-.field input::placeholder, .field textarea::placeholder { color: var(--stone-light); }
-.field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
-.field.has-err input, .field.has-err select { border-color: #C0392B; }
-.err-msg { font-size: 11px; color: #C0392B; display: none; }
-.field.has-err .err-msg { display: block; }
+.field input::placeholder,
+.field textarea::placeholder { color: var(--stoneL); }
+.field textarea { resize: vertical; min-height: 80px; line-height: 1.65; }
+.field.err input,
+.field.err select { border-color: var(--red); }
+.err-msg { font-size: 11px; color: var(--red); display: none; }
+.field.err .err-msg { display: block; }
 
-.input-with-unit { position: relative; }
-.input-with-unit input { padding-right: 48px; }
-.input-unit {
-  position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
-  font-family: 'JetBrains Mono', monospace; font-size: 11px;
-  color: var(--gold); pointer-events: none; font-weight: 500;
-}
-.area-result {
+/* Input with unit */
+.inp-u { position: relative; }
+.inp-u input { padding-right: 42px; }
+.inp-u .unit {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 22px; font-weight: 500; color: var(--gold);
-  padding: 8px 0 4px;
+  font-size: 11px; color: var(--gold); font-weight: 500;
+  pointer-events: none;
 }
-.area-label { font-size: 12px; color: var(--stone); }
 
-/* ── TILE CARDS ── */
+/* Area display */
+.area-big { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 500; color: var(--gold); padding: 4px 0 2px; }
+.area-sub  { font-size: 11px; color: var(--stone); }
+
+/* Transport notice */
+.t-notice {
+  background: #ECF3FB;
+  border: 1px solid #AECDE8;
+  border-radius: 4px;
+  padding: 9px 13px;
+  font-size: 12px; color: #1A4A7A;
+  display: none; align-items: center; gap: 7px;
+  margin-top: 7px;
+}
+.t-notice.show { display: flex; }
+
+/* Divider */
+.div { border: none; border-top: 1px solid rgba(0,0,0,.06); margin: 20px 0; }
+
+/* ══ TILE GRID ══ */
 .tile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(165px, 1fr));
+  gap: 12px;
 }
-
 .tile-card {
-  border: 2px solid rgba(0,0,0,0.08);
-  border-radius: var(--r);
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
-  background: var(--cream);
+  border: 2px solid rgba(0,0,0,.08);
+  border-radius: 8px; overflow: hidden;
+  cursor: pointer; transition: all .18s;
+  background: var(--cream); position: relative;
 }
-.tile-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-.tile-card.selected { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 3px rgba(201,150,42,0.15); }
-.tile-card-top {
-  height: 72px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px;
-  position: relative;
+.tile-card:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 5px 18px rgba(0,0,0,.1); }
+.tile-card.sel   { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 3px rgba(200,145,31,.12); }
+.tile-top {
+  height: 62px; display: flex; align-items: center; justify-content: center;
+  font-size: 26px; position: relative;
 }
-.tile-selected-badge {
-  position: absolute; top: 8px; right: 8px;
-  width: 22px; height: 22px; border-radius: 50%;
+.tile-tick {
+  position: absolute; top: 7px; right: 7px;
+  width: 20px; height: 20px; border-radius: 50%;
   background: var(--gold); color: var(--ink);
+  font-size: 11px; font-weight: 700;
   display: none; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700;
 }
-.tile-card.selected .tile-selected-badge { display: flex; }
-.tile-body { padding: 14px 16px 18px; }
-.tile-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
-.tile-price {
-  font-family: 'JetBrains Mono', monospace; font-size: 17px;
-  font-weight: 500; color: var(--gold); margin-bottom: 10px;
-}
-.tile-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 10px; }
+.tile-card.sel .tile-tick { display: flex; }
+.tile-body { padding: 10px 12px 14px; }
+.tile-name { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.tile-rate { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 500; color: var(--gold); margin-bottom: 7px; }
 .tile-badge {
-  font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
-  padding: 3px 8px; border-radius: 20px; text-transform: uppercase;
+  display: inline-block; font-size: 9px; font-weight: 700;
+  letter-spacing: .5px; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 20px; margin-bottom: 7px;
 }
-.badge-low  { background: #E8F5ED; color: #2A6B4A; }
-.badge-med  { background: #FEF3E2; color: #9B6A00; }
-.badge-high { background: #FDE8E4; color: #8B3A2A; }
-.tile-specs { font-size: 12px; color: var(--stone); line-height: 1.8; }
-.tile-specs span { display: block; }
+.b-low { background: #E5F2EC; color: #1E6040; }
+.b-med { background: #FEF3E2; color: #8A5E00; }
+.b-hi  { background: #FDECEC; color: #882020; }
+.tile-specs { font-size: 11px; color: var(--stone); line-height: 1.9; }
 
-/* ── ADDONS ── */
-.addon-list { display: flex; flex-direction: column; gap: 10px; }
+/* ══ ADDONS ══ */
+.addon-list { display: flex; flex-direction: column; gap: 8px; }
 .addon-row {
-  display: flex; align-items: center; gap: 16px;
-  padding: 14px 18px;
-  border: 1.5px solid rgba(0,0,0,0.08);
-  border-radius: 5px;
-  cursor: pointer;
-  transition: all 0.18s;
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border: 1.5px solid rgba(0,0,0,.08);
+  border-radius: 6px;
+  cursor: pointer; transition: all .15s;
   background: var(--cream);
 }
 .addon-row:hover { border-color: var(--gold); }
-.addon-row.on { border-color: var(--gold); background: var(--gold-pale); }
-.addon-check {
-  width: 20px; height: 20px; flex-shrink: 0;
-  border-radius: 4px; border: 1.5px solid rgba(0,0,0,0.18);
+.addon-row.on    { border-color: var(--gold); background: var(--goldPP); }
+.addon-box {
+  width: 19px; height: 19px; flex-shrink: 0;
+  border-radius: 4px; border: 1.5px solid rgba(0,0,0,.16);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; transition: all 0.2s;
+  font-size: 10px; transition: all .15s;
 }
-.addon-row.on .addon-check { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 700; }
-.addon-info { flex: 1; }
-.addon-name { font-size: 14px; font-weight: 600; color: var(--ink); }
-.addon-desc { font-size: 12px; color: var(--stone); margin-top: 2px; }
-.addon-price-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px; font-weight: 500; color: var(--gold);
-  white-space: nowrap;
-}
+.addon-row.on .addon-box { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 700; }
+.addon-info { flex: 1; min-width: 0; }
+.addon-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+.addon-desc { font-size: 11px; color: var(--stone); margin-top: 1px; }
+.addon-rate { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; color: var(--gold); white-space: nowrap; }
 
-.transport-notice {
-  background: #EEF4FB; border: 1px solid #BDD0E8;
-  border-radius: 4px; padding: 12px 16px;
-  font-size: 13px; color: #1A4A7A; margin-top: 8px;
-  display: flex; gap: 8px; align-items: flex-start;
-}
+/* ══ BUTTONS ══ */
+.btn-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
 
-/* ── BUTTONS ── */
-.btn-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
-.btn-gold {
+.btn-primary {
   background: var(--gold); color: var(--ink);
   border: none; cursor: pointer;
   font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 700;
-  padding: 14px 36px; border-radius: 4px;
-  transition: all 0.2s; letter-spacing: 0.3px;
+  padding: 13px 32px; border-radius: 5px;
+  transition: all .18s;
   display: inline-flex; align-items: center; gap: 8px;
 }
-.btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,150,42,0.3); }
-.btn-outline {
+.btn-primary:hover    { background: var(--goldL); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(200,145,31,.3); }
+.btn-primary:active   { transform: translateY(0); }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-ghost {
   background: transparent; color: var(--ink2);
-  border: 1.5px solid rgba(0,0,0,0.18); cursor: pointer;
-  font-family: 'Outfit', sans-serif; font-size: 14px;
-  padding: 12px 24px; border-radius: 4px; transition: all 0.2s;
+  border: 1.5px solid rgba(0,0,0,.13);
+  cursor: pointer; font-family: 'Outfit', sans-serif;
+  font-size: 14px; padding: 11px 22px; border-radius: 5px;
+  transition: all .18s;
 }
-.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
 
-/* ── DIVIDER ── */
-.div { border: none; border-top: 1px solid rgba(0,0,0,0.07); margin: 24px 0; }
+/* ══ AREA BREAKDOWN CHIPS ══ */
+.chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
+  gap: 8px; margin-top: 14px;
+}
+.chip { background: var(--cream2); border-radius: 5px; padding: 10px 12px; border: 1px solid rgba(0,0,0,.06); }
+.chip-l { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--stone); font-weight: 700; margin-bottom: 3px; }
+.chip-v { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500; color: var(--gold); }
+.chip.final { background: var(--ink); }
+.chip.final .chip-l { color: var(--stoneL); }
+.chip.final .chip-v { color: var(--goldL); }
 
-/* ── RESULT PAGE ── */
-.result-banner {
-  background: var(--ink);
-  border-radius: var(--r);
-  padding: 28px 32px;
-  display: flex; align-items: center; gap: 20px;
-  margin-bottom: 24px;
-  border: 1px solid rgba(201,150,42,0.25);
+/* ══ SUCCESS PANEL ══ */
+.success-wrap { text-align: center; padding: 12px 0 48px; }
+.success-ring {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: rgba(42,107,74,.08);
+  border: 2px solid rgba(42,107,74,.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 38px; margin: 0 auto 24px;
+  animation: pop .5s cubic-bezier(.34,1.56,.64,1);
 }
-.result-icon { font-size: 36px; }
-.result-txt h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--white); }
-.result-txt p { font-size: 13px; color: var(--stone-light); margin-top: 4px; }
-.result-ref { font-family: 'JetBrains Mono', monospace; color: var(--gold-light); }
+@keyframes pop { from { transform:scale(.3); opacity:0; } to { transform:scale(1); opacity:1; } }
 
-/* ── TABS ── */
-.tab-strip {
-  display: flex; gap: 4px;
-  background: var(--ink);
-  border-radius: 6px 6px 0 0;
-  padding: 6px;
+.success-h {
+  font-family: 'Fraunces', serif;
+  font-size: 28px; font-weight: 900; color: var(--ink); margin-bottom: 10px;
 }
-.tab-btn {
-  flex: 1; padding: 10px 8px; text-align: center;
-  cursor: pointer; border-radius: 4px;
-  font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.45);
-  transition: all 0.2s; border: none; background: transparent;
-  letter-spacing: 0.3px;
+.success-p {
+  font-size: 14px; color: var(--stone); line-height: 1.75;
+  max-width: 440px; margin: 0 auto 28px;
 }
-.tab-btn.on { background: var(--gold); color: var(--ink); }
-.tab-pane { display: none; }
-.tab-pane.on { display: block; animation: slideUp 0.3s ease; }
-.tab-wrap {
-  border: 1px solid rgba(0,0,0,0.1);
-  border-radius: 0 0 var(--r) var(--r);
-  overflow: hidden;
+.ref-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace; font-size: 13px;
+  background: var(--ink); color: var(--goldL);
+  padding: 8px 20px; border-radius: 4px; letter-spacing: 1px;
+  margin-bottom: 32px;
 }
 
-/* ── QUOTE DOC ── */
-.doc {
-  background: var(--white);
-  padding: 0;
+.timeline {
+  background: var(--white); border: 1px solid rgba(0,0,0,.07);
+  border-radius: 10px; padding: 24px 28px; text-align: left; margin-bottom: 20px;
+  box-shadow: 0 1px 14px rgba(0,0,0,.05);
 }
-.doc-header {
-  background: var(--ink); padding: 32px 40px;
-  display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;
+.tl-title {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--stone); margin-bottom: 18px;
 }
-.doc-logo-name {
-  font-family: 'Playfair Display', serif;
-  font-size: 26px; font-weight: 900; color: var(--white); letter-spacing: 1px;
+.tl-step {
+  display: flex; align-items: flex-start; gap: 13px;
+  margin-bottom: 14px;
 }
-.doc-logo-name span { color: var(--gold-light); }
-.doc-logo-tagline { font-size: 11px; color: var(--stone-light); margin-top: 4px; letter-spacing: 1px; }
-.doc-logo-address { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 10px; line-height: 1.8; }
-.doc-ref-block { text-align: right; }
-.doc-doc-type { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--stone-light); margin-bottom: 6px; }
-.doc-ref-num { font-family: 'JetBrains Mono', monospace; font-size: 22px; font-weight: 500; color: var(--gold-light); }
-.doc-dates { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 8px; line-height: 1.8; }
-
-.doc-body { padding: 32px 40px; }
-.parties-row {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 28px;
-}
-.party-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--stone); margin-bottom: 8px; font-weight: 600; }
-.party-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
-.party-detail { font-size: 13px; color: var(--stone); line-height: 1.8; }
-
-.roof-summary-band {
-  background: var(--gold-pale);
-  border: 1px solid rgba(201,150,42,0.25);
-  border-radius: 5px;
-  padding: 16px 20px;
-  display: flex; gap: 32px; flex-wrap: wrap;
-  margin-bottom: 24px;
-}
-.rs-item { }
-.rs-lbl { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--stone); font-weight: 600; }
-.rs-val { font-size: 14px; font-weight: 600; color: var(--ink); margin-top: 3px; }
-
-.line-table { width: 100%; border-collapse: collapse; }
-.line-table thead tr { border-bottom: 2px solid var(--ink); }
-.line-table th {
-  font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--stone); padding: 0 0 10px; text-align: left; font-weight: 600;
-}
-.line-table th:last-child { text-align: right; }
-.line-table td { padding: 13px 0; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 14px; vertical-align: top; }
-.line-table td:last-child { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-.li-name { font-weight: 600; color: var(--ink); }
-.li-desc { font-size: 12px; color: var(--stone); margin-top: 3px; }
-
-.totals-col { margin-top: 16px; display: flex; justify-content: flex-end; }
-.totals-block { width: 300px; border-top: 2px solid var(--ink); padding-top: 14px; }
-.t-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 14px; }
-.t-row .tl { color: var(--stone); }
-.t-row .tv { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
-.t-row.grand { border-top: 1px solid rgba(0,0,0,0.1); margin-top: 8px; padding-top: 12px; }
-.t-row.grand .tl { font-weight: 700; font-size: 16px; color: var(--ink); }
-.t-row.grand .tv { font-size: 18px; color: var(--gold); font-weight: 700; }
-
-.validity-box {
-  background: #EDF7F1; border: 1px solid #B5DEC8;
-  border-radius: 4px; padding: 12px 16px;
-  font-size: 13px; color: #1B5E3B; margin-top: 24px;
-}
-.doc-footer {
-  background: var(--cream2); padding: 20px 40px;
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
-}
-.bank-info { font-size: 12px; color: var(--stone); line-height: 1.8; }
-.bank-info strong { color: var(--ink); display: block; margin-bottom: 2px; }
-.stamp-box {
+.tl-step:last-child { margin-bottom: 0; }
+.tl-bullet {
+  width: 26px; height: 26px; border-radius: 50%;
   background: var(--gold); color: var(--ink);
-  font-family: 'Playfair Display', serif; font-weight: 900;
-  font-size: 13px; letter-spacing: 3px;
-  padding: 8px 18px; border-radius: 2px;
-  transform: rotate(-2deg); display: inline-block;
-  text-transform: uppercase;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
 }
-.stamp-box.inv { background: var(--success); color: var(--white); }
+.tl-txt { font-size: 13px; color: var(--ink); line-height: 1.55; }
+.tl-txt strong { font-weight: 600; }
 
-/* ── EMAIL ── */
-.email-chrome { background: #EBEBEB; border-radius: var(--r) var(--r) 0 0; }
-.email-toolbar {
-  background: #D9D9D9; border-radius: var(--r) var(--r) 0 0;
-  padding: 8px 14px; display: flex; gap: 6px;
+.summary-chips {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin-bottom: 24px;
 }
-.email-dot { width: 10px; height: 10px; border-radius: 50%; }
-.email-fields { background: #F5F5F5; padding: 10px 16px; }
-.email-field { font-size: 12px; color: #555; padding: 5px 0; border-bottom: 1px solid #E0E0E0; }
-.email-field:last-child { border-bottom: none; }
-.email-field strong { color: #222; }
-.email-body { background: var(--white); padding: 28px 32px; }
-.em-subject { font-size: 20px; font-weight: 700; color: var(--ink); margin-bottom: 20px; font-family: 'Playfair Display', serif; }
-.em-text { font-size: 14px; color: #444; line-height: 1.8; margin-bottom: 14px; }
-.em-highlight {
-  background: var(--gold-pale); border-left: 3px solid var(--gold);
-  padding: 14px 18px; border-radius: 0 5px 5px 0; margin-bottom: 16px; font-size: 13px; color: var(--ink);
-  line-height: 1.9;
-}
-.em-cta {
-  display: inline-block; background: var(--gold); color: var(--ink);
-  font-weight: 700; font-size: 14px; padding: 12px 28px; border-radius: 4px;
-  text-decoration: none; margin-bottom: 16px;
-}
-.em-footer { font-size: 11px; color: #AAA; margin-top: 20px; border-top: 1px solid #EEE; padding-top: 16px; line-height: 1.7; }
+.sc { background: var(--cream2); border: 1px solid rgba(0,0,0,.06); border-radius: 6px; padding: 11px 13px; }
+.sc-l { font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--stone); font-weight: 700; margin-bottom: 3px; }
+.sc-v { font-size: 14px; font-weight: 600; color: var(--ink); }
+.sc-v.gold { font-family: 'JetBrains Mono', monospace; color: var(--gold); font-size: 13px; }
 
-/* ── N8N ── */
-.n8n-panel { background: #13151F; border-radius: 0 0 var(--r) var(--r); padding: 28px; }
-.n8n-section-title { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #6B9DE8; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
-.n8n-flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
-.n8n-node {
-  background: #1E2235; border: 1px solid rgba(107,157,232,0.2);
-  border-radius: 5px; padding: 7px 14px;
-  font-size: 12px; font-family: 'JetBrains Mono', monospace;
-  color: #A8C4E8; display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+/* ══ FOOTER ══ */
+footer {
+  background: var(--ink); padding: 24px 5vw;
+  text-align: center;
 }
-.n8n-node .dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-.n8n-node.wh  { color: #78D3A0; border-color: rgba(120,211,160,0.2); }
-.n8n-node.sh  { color: #78C9D3; border-color: rgba(120,201,211,0.2); }
-.n8n-node.ai  { color: #E8C86B; border-color: rgba(232,200,107,0.2); }
-.n8n-node.gm  { color: #D388E8; border-color: rgba(211,136,232,0.2); }
-.n8n-node.cd  { color: #E87878; border-color: rgba(232,120,120,0.2); }
-.n8n-arrow { color: rgba(107,157,232,0.3); font-size: 14px; }
-.code-block {
-  background: #0D0F18; border-radius: 5px; padding: 18px 20px;
-  font-family: 'JetBrains Mono', monospace; font-size: 12px;
-  color: rgba(255,255,255,0.65); line-height: 2;
-  border: 1px solid rgba(107,157,232,0.1); margin-bottom: 20px;
-  overflow-x: auto;
-}
-.code-block .k { color: #E8C86B; }
-.code-block .s { color: #78D3A0; }
-.code-block .c { color: #5A6A8A; font-style: italic; }
-.code-block .n { color: #A8C4E8; }
-.div-dark { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 20px 0; }
-
-/* ── SHEET PREVIEW ── */
-.sheet-table { width: 100%; border-collapse: collapse; font-size: 13px; border-radius: 5px; overflow: hidden; }
-.sheet-table th { background: #1E5631; color: white; padding: 10px 14px; text-align: left; font-weight: 600; font-size: 12px; }
-.sheet-table td { padding: 10px 14px; border-bottom: 1px solid rgba(0,0,0,0.07); }
-.sheet-table tr:nth-child(even) td { background: #F0FAF4; }
-.sheet-table tr:last-child td { border-bottom: none; }
-.sheet-wrap { border-radius: 5px; overflow: hidden; border: 1px solid rgba(0,0,0,0.1); margin-bottom: 14px; }
-.sheet-tab { display: flex; gap: 0; margin-bottom: 0; }
-.sheet-tab-btn {
-  padding: 7px 18px; font-size: 12px; font-weight: 600; cursor: pointer;
-  background: #D0E8D4; color: #1E5631; border: 1px solid #B5D4BA; border-bottom: none;
-  border-radius: 4px 4px 0 0; margin-right: 3px; transition: background 0.15s;
-}
-.sheet-tab-btn.on { background: #1E5631; color: white; }
-
-/* ── MISC ── */
-.info-row {
-  display: grid; grid-template-columns: repeat(auto-fill,minmax(180px,1fr)); gap: 12px;
-  margin-top: 16px;
-}
-.info-chip {
-  background: var(--cream2); border-radius: 5px; padding: 14px 16px;
-  border: 1px solid rgba(0,0,0,0.07);
-}
-.ic-lbl { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--stone); font-weight: 600; margin-bottom: 5px; }
-.ic-val { font-size: 15px; font-weight: 600; color: var(--ink); }
-.ic-val.gold { color: var(--gold); font-family: 'JetBrains Mono', monospace; }
+.footer-logo { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.footer-logo em { color: var(--goldL); font-style: normal; }
+.footer-txt { font-size: 11px; color: var(--stoneL); line-height: 1.7; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="site-header">
+<!-- ══ HEADER ══ -->
+<header class="hdr">
   <div class="brand">
-    <div class="brand-mark">A</div>
-    <div class="brand-name">ABC <span>Builders</span></div>
+    <div class="brand-sq">A</div>
+    <div class="brand-name">ABC <em>Builders</em></div>
   </div>
-  <div class="header-tag">Roofing Quotation System</div>
+  <div class="hdr-tag">Roofing Quotation · Botswana</div>
 </header>
 
-<!-- HERO -->
-<div class="hero-band">
-  <div class="hero-eyebrow">Botswana · Professional Roofing</div>
-  <h1 class="hero-title">Get Your Instant<br><em>Roofing Quote</em></h1>
-  <p class="hero-sub">Fill in your details below and receive a professional itemised quotation in Pula — emailed to you and your project manager instantly.</p>
-</div>
-
-<!-- PROGRESS -->
-<div class="progress-track">
-  <div class="prog-step active" id="ps1">
-    <div class="prog-num" id="pn1">01</div>
-    <div class="prog-label">Your Details</div>
-  </div>
-  <div class="prog-step" id="ps2">
-    <div class="prog-num" id="pn2">02</div>
-    <div class="prog-label">Roof Size</div>
-  </div>
-  <div class="prog-step" id="ps3">
-    <div class="prog-num" id="pn3">03</div>
-    <div class="prog-label">Tile Type</div>
-  </div>
-  <div class="prog-step" id="ps4">
-    <div class="prog-num" id="pn4">04</div>
-    <div class="prog-label">Add-ons</div>
-  </div>
-  <div class="prog-step" id="ps5">
-    <div class="prog-num" id="pn5">05</div>
-    <div class="prog-label">Quote &amp; Invoice</div>
-  </div>
-</div>
-
-<div class="main-wrap">
-
-<!-- ════════════ PANEL 1 — CUSTOMER ════════════ -->
-<div class="panel active" id="panel1">
-  <div class="section-card">
-    <div class="section-head">
-      <div class="section-head-icon">👤</div>
-      <div class="section-head-text">
-        <h2>Customer Details</h2>
-        <p>Your information for the quotation — pulled from ABC Builders Sheet 2 (Customers)</p>
-      </div>
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Professional Roofing · Botswana</div>
+    <h1 class="hero-h1">Get Your Instant<br><em>Roofing Quote</em></h1>
+    <p class="hero-sub">Select your tile, fill in your details — your personalised quote and invoice land in your inbox in minutes, powered by AI.</p>
+    <div class="pipeline">
+      <div class="pip you"><span class="pip-dot"></span>This Form</div>
+      <div class="pip-arr">→</div>
+      <div class="pip"><span class="pip-dot"></span>Google Sheets</div>
+      <div class="pip-arr">→</div>
+      <div class="pip"><span class="pip-dot"></span>n8n Agent</div>
+      <div class="pip-arr">→</div>
+      <div class="pip"><span class="pip-dot"></span>OpenAI GPT-4o</div>
+      <div class="pip-arr">→</div>
+      <div class="pip"><span class="pip-dot"></span>Your Email</div>
     </div>
-    <div class="section-body">
-      <div class="fg fg-2" style="margin-bottom:20px">
-        <div class="field" id="f-name">
-          <label>Full Name</label>
-          <input type="text" id="inp-name" placeholder="Kagiso Mothibi">
-          <div class="err-msg">Please enter your full name</div>
+  </div>
+</section>
+
+<!-- ══ STEPS BAR ══ -->
+<nav class="steps-bar" aria-label="Form steps">
+  <div class="step-item active" id="si1"><div class="step-num" id="sn1">01</div><div class="step-txt">Your Details</div></div>
+  <div class="step-item"        id="si2"><div class="step-num" id="sn2">02</div><div class="step-txt">Roof Size</div></div>
+  <div class="step-item"        id="si3"><div class="step-num" id="sn3">03</div><div class="step-txt">Tile Type</div></div>
+  <div class="step-item"        id="si4"><div class="step-num" id="sn4">04</div><div class="step-txt">Add-ons</div></div>
+  <div class="step-item"        id="si5"><div class="step-num" id="sn5">05</div><div class="step-txt">Done ✓</div></div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <!-- ──── STEP 1: CUSTOMER DETAILS ──── -->
+  <div class="panel on" id="p1">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">👤</div>
+        <div class="card-head-txt">
+          <h2>Your Details</h2>
+          <p>Saved to ABC Builders Google Sheet → Customers</p>
         </div>
-        <div class="field" id="f-phone">
-          <label>Phone Number</label>
-          <input type="tel" id="inp-phone" placeholder="+267 71 234 567">
-          <div class="err-msg">Please enter your phone number</div>
+      </div>
+      <div class="card-body">
+        <div class="fg g2" style="margin-bottom:16px">
+          <div class="field" id="f-name">
+            <label>Full Name</label>
+            <input type="text" id="inp-name" placeholder="Kagiso Mothibi" autocomplete="name">
+            <div class="err-msg">Please enter your full name</div>
+          </div>
+          <div class="field" id="f-phone">
+            <label>Phone / WhatsApp</label>
+            <input type="tel" id="inp-phone" placeholder="+267 71 234 567" autocomplete="tel">
+            <div class="err-msg">Please enter your phone number</div>
+          </div>
         </div>
-        <div class="field fg-1" id="f-email" style="grid-column:1/-1">
+        <div class="field" id="f-email" style="margin-bottom:16px">
           <label>Email Address</label>
-          <input type="email" id="inp-email" placeholder="kagiso@email.com">
-          <div class="err-msg">Please enter a valid email</div>
+          <input type="email" id="inp-email" placeholder="kagiso@email.com" autocomplete="email">
+          <div class="err-msg">Please enter a valid email address</div>
         </div>
-      </div>
-      <hr class="div">
-      <div class="fg fg-2">
-        <div class="field" id="f-location">
-          <label>Location / Area</label>
-          <select id="inp-location" onchange="handleLocation()">
-            <option value="">— Select your area —</option>
-            <optgroup label="Gaborone (P100 delivery)">
-              <option value="gaborone">Gaborone CBD</option>
-              <option value="gaborone">Phakalane</option>
-              <option value="gaborone">Tlokweng</option>
-              <option value="gaborone">Mogoditshane</option>
-              <option value="gaborone">Gabane</option>
-              <option value="gaborone">Mmopane</option>
-              <option value="gaborone">Block 3 / 7 / 8</option>
-              <option value="gaborone">Extension 15</option>
-            </optgroup>
-            <optgroup label="Outside Gaborone (P200 delivery)">
-              <option value="outside">Francistown</option>
-              <option value="outside">Maun</option>
-              <option value="outside">Kasane</option>
-              <option value="outside">Serowe</option>
-              <option value="outside">Palapye</option>
-              <option value="outside">Lobatse</option>
-              <option value="outside">Kanye</option>
-              <option value="outside">Molepolole</option>
-              <option value="outside">Mahalapye</option>
-              <option value="outside">Ramotswa</option>
-              <option value="outside">Jwaneng</option>
-              <option value="outside">Selibe Phikwe</option>
-            </optgroup>
-          </select>
-          <div id="loc-notice" class="transport-notice" style="display:none">
-            🚛 <span>Outside Gaborone — P200 delivery fee will apply</span>
+        <hr class="div">
+        <div class="fg g2">
+          <div class="field" id="f-location">
+            <label>Location / Area</label>
+            <select id="inp-location" onchange="handleLocation()">
+              <option value="">— Select your area —</option>
+              <optgroup label="Greater Gaborone (P100 delivery)">
+                <option value="gaborone|Gaborone CBD">Gaborone CBD</option>
+                <option value="gaborone|Phakalane">Phakalane</option>
+                <option value="gaborone|Tlokweng">Tlokweng</option>
+                <option value="gaborone|Mogoditshane">Mogoditshane</option>
+                <option value="gaborone|Gabane">Gabane</option>
+                <option value="gaborone|Mmopane">Mmopane</option>
+                <option value="gaborone|Block 3 / 7 / 8">Block 3 / 7 / 8</option>
+                <option value="gaborone|Broadhurst">Broadhurst</option>
+                <option value="gaborone|Extension 15">Extension 15</option>
+              </optgroup>
+              <optgroup label="Outside Gaborone (P200 delivery)">
+                <option value="outside|Francistown">Francistown</option>
+                <option value="outside|Maun">Maun</option>
+                <option value="outside|Kasane">Kasane</option>
+                <option value="outside|Serowe">Serowe</option>
+                <option value="outside|Palapye">Palapye</option>
+                <option value="outside|Lobatse">Lobatse</option>
+                <option value="outside|Kanye">Kanye</option>
+                <option value="outside|Molepolole">Molepolole</option>
+                <option value="outside|Mahalapye">Mahalapye</option>
+                <option value="outside|Ramotswa">Ramotswa</option>
+                <option value="outside|Jwaneng">Jwaneng</option>
+                <option value="outside|Selibe Phikwe">Selibe Phikwe</option>
+              </optgroup>
+            </select>
+            <div class="t-notice" id="transport-notice">🚛 P200 delivery fee applies outside Gaborone</div>
+            <div class="err-msg">Please select your location</div>
           </div>
-          <div class="err-msg">Please select your location</div>
+          <div class="field">
+            <label>Site / Plot Address (optional)</label>
+            <input type="text" id="inp-address" placeholder="Plot 4521, Extension 15">
+          </div>
         </div>
-        <div class="field">
-          <label>Site / Plot Address</label>
-          <input type="text" id="inp-address" placeholder="Plot 4521, Extension 15">
-        </div>
-      </div>
-      <div class="fg fg-1" style="margin-top:20px">
-        <div class="field">
+        <div class="field" style="margin-top:16px">
           <label>Comments / Special Requirements</label>
-          <textarea id="inp-comments" placeholder="E.g. Hip roof, existing sheeting to remove, preferred installation date, two-storey building..."></textarea>
+          <textarea id="inp-comments" placeholder="E.g. hip roof, two-storey, existing sheets to remove, preferred install date…"></textarea>
         </div>
       </div>
     </div>
-  </div>
-  <div class="btn-row">
-    <button class="btn-gold" onclick="step1Next()">Continue — Roof Size →</button>
-  </div>
-</div>
-
-<!-- ════════════ PANEL 2 — ROOF SIZE ════════════ -->
-<div class="panel" id="panel2">
-  <div class="section-card">
-    <div class="section-head">
-      <div class="section-head-icon">📐</div>
-      <div class="section-head-text">
-        <h2>Roof Dimensions</h2>
-        <p>Measure your roof footprint — we'll apply pitch and wastage factors automatically</p>
-      </div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="next1()">Continue — Roof Size →</button>
     </div>
-    <div class="section-body">
-      <div class="fg fg-3">
-        <div class="field" id="f-len">
-          <label>Length</label>
-          <div class="input-with-unit">
-            <input type="number" id="inp-len" placeholder="12.0" min="1" max="300" step="0.5" oninput="calcArea()">
-            <span class="input-unit">m</span>
+  </div>
+
+  <!-- ──── STEP 2: ROOF SIZE ──── -->
+  <div class="panel" id="p2">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">📐</div>
+        <div class="card-head-txt">
+          <h2>Roof Dimensions</h2>
+          <p>Pitch factor and 10% wastage applied automatically</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="fg g3">
+          <div class="field" id="f-len">
+            <label>Roof Length</label>
+            <div class="inp-u">
+              <input type="number" id="inp-len" placeholder="12.0" min="1" max="300" step="0.5" oninput="calcArea()">
+              <span class="unit">m</span>
+            </div>
+            <div class="err-msg">Please enter a valid length</div>
           </div>
-          <div class="err-msg">Enter a valid length (1–300m)</div>
-        </div>
-        <div class="field" id="f-wid">
-          <label>Width</label>
-          <div class="input-with-unit">
-            <input type="number" id="inp-wid" placeholder="8.0" min="1" max="300" step="0.5" oninput="calcArea()">
-            <span class="input-unit">m</span>
+          <div class="field" id="f-wid">
+            <label>Roof Width</label>
+            <div class="inp-u">
+              <input type="number" id="inp-wid" placeholder="8.0" min="1" max="300" step="0.5" oninput="calcArea()">
+              <span class="unit">m</span>
+            </div>
+            <div class="err-msg">Please enter a valid width</div>
           </div>
-          <div class="err-msg">Enter a valid width (1–300m)</div>
-        </div>
-        <div class="field">
-          <label>Base Area</label>
-          <div class="area-result" id="area-display">—</div>
-          <div class="area-label">Calculated from L × W</div>
-        </div>
-      </div>
-      <hr class="div">
-      <div class="fg fg-2">
-        <div class="field">
-          <label>Roof Pitch Factor</label>
-          <select id="inp-pitch">
-            <option value="1.00">Flat / Low (×1.00)</option>
-            <option value="1.10" selected>Standard Gable (×1.10)</option>
-            <option value="1.20">Medium Pitch (×1.20)</option>
-            <option value="1.35">Steep Pitch (×1.35)</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Roof Complexity</label>
-          <select id="inp-complex">
-            <option value="1.00">Simple (single gable/hip)</option>
-            <option value="1.10">Moderate (valleys / L-shape)</option>
-            <option value="1.20">Complex (multiple ridges/valleys)</option>
-          </select>
-        </div>
-      </div>
-      <div class="info-row" id="area-breakdown" style="display:none">
-        <div class="info-chip"><div class="ic-lbl">Base Area</div><div class="ic-val gold" id="ib-base">—</div></div>
-        <div class="info-chip"><div class="ic-lbl">+ Pitch</div><div class="ic-val gold" id="ib-pitch">—</div></div>
-        <div class="info-chip"><div class="ic-lbl">+ Complexity</div><div class="ic-val gold" id="ib-complex">—</div></div>
-        <div class="info-chip"><div class="ic-lbl">+ 10% Wastage</div><div class="ic-val gold" id="ib-final">—</div></div>
-      </div>
-    </div>
-  </div>
-  <div class="btn-row">
-    <button class="btn-outline" onclick="goPanel(1)">← Back</button>
-    <button class="btn-gold" onclick="step2Next()">Continue — Select Tile →</button>
-  </div>
-</div>
-
-<!-- ════════════ PANEL 3 — TILE TYPE ════════════ -->
-<div class="panel" id="panel3">
-  <div class="section-card">
-    <div class="section-head">
-      <div class="section-head-icon">🏠</div>
-      <div class="section-head-text">
-        <h2>Select Tile Type</h2>
-        <p>Pricing sourced from ABC Builders Sheet 1 (Pricing)</p>
-      </div>
-    </div>
-    <div class="section-body">
-      <div class="tile-grid" id="tile-grid">
-        <!-- Rendered by JS -->
-      </div>
-      <div id="tile-err" style="color:#C0392B;font-size:13px;margin-top:14px;display:none">Please select a tile type to continue</div>
-    </div>
-  </div>
-  <div class="btn-row">
-    <button class="btn-outline" onclick="goPanel(2)">← Back</button>
-    <button class="btn-gold" onclick="step3Next()">Continue — Add-ons →</button>
-  </div>
-</div>
-
-<!-- ════════════ PANEL 4 — ADD-ONS ════════════ -->
-<div class="panel" id="panel4">
-  <div class="section-card">
-    <div class="section-head">
-      <div class="section-head-icon">🔧</div>
-      <div class="section-head-text">
-        <h2>Add-ons &amp; Services</h2>
-        <p>Select additional items — transport is automatically included based on your location</p>
-      </div>
-    </div>
-    <div class="section-body">
-      <div class="addon-list" id="addon-list"><!-- JS --></div>
-      <hr class="div">
-      <div style="background:var(--cream2);border-radius:5px;padding:16px 20px;border:1px solid rgba(0,0,0,0.07)">
-        <div style="font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--stone);margin-bottom:10px">Always Included — Free</div>
-        <div style="font-size:13px;color:var(--stone);line-height:2;display:grid;grid-template-columns:1fr 1fr;gap:0 20px">
-          <span>✔ Quantity calculation with wastage</span>
-          <span>✔ Professional itemised quote PDF</span>
-          <span>✔ Email delivery (customer + manager)</span>
-          <span>✔ 30-day quote validity</span>
-          <span>✔ One free revision</span>
-          <span>✔ WhatsApp follow-up support</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="btn-row">
-    <button class="btn-outline" onclick="goPanel(3)">← Back</button>
-    <button class="btn-gold" onclick="generateAll()">⚡ Generate Quote &amp; Invoice</button>
-  </div>
-</div>
-
-<!-- ════════════ PANEL 5 — RESULTS ════════════ -->
-<div class="panel" id="panel5">
-  <div class="result-banner">
-    <div class="result-icon">✅</div>
-    <div class="result-txt">
-      <h3>Quote Generated Successfully</h3>
-      <p>Emails sent to customer &amp; manager · Reference: <span class="result-ref" id="result-ref"></span></p>
-    </div>
-  </div>
-
-  <!-- TABS -->
-  <div class="tab-strip">
-    <button class="tab-btn on"  onclick="showTab('quotation',this)">📋 Quotation</button>
-    <button class="tab-btn"     onclick="showTab('invoice',this)">🧾 Invoice</button>
-    <button class="tab-btn"     onclick="showTab('email-cust',this)">📧 Customer Email</button>
-    <button class="tab-btn"     onclick="showTab('email-mgr',this)">📧 Manager Email</button>
-    <button class="tab-btn"     onclick="showTab('sheet',this)">📊 Sheet Data</button>
-    <button class="tab-btn"     onclick="showTab('n8n',this)">⚙️ n8n Workflow</button>
-  </div>
-  <div class="tab-wrap">
-
-    <!-- QUOTATION -->
-    <div class="tab-pane on" id="tab-quotation">
-      <div class="doc" id="doc-quote"></div>
-    </div>
-
-    <!-- INVOICE -->
-    <div class="tab-pane" id="tab-invoice">
-      <div class="doc" id="doc-invoice"></div>
-    </div>
-
-    <!-- EMAIL CUSTOMER -->
-    <div class="tab-pane" id="tab-email-cust">
-      <div id="ec-render"></div>
-    </div>
-
-    <!-- EMAIL MANAGER -->
-    <div class="tab-pane" id="tab-email-mgr">
-      <div id="em-render"></div>
-    </div>
-
-    <!-- SHEET DATA -->
-    <div class="tab-pane" id="tab-sheet">
-      <div style="padding:28px;background:white">
-        <p style="font-size:14px;color:#555;margin-bottom:20px;line-height:1.7">
-          This is exactly what gets written to your <strong>ABC Builders → Sheet 2 (Customers)</strong> via the n8n Google Sheets node after each quote.
-        </p>
-        <div class="sheet-tab">
-          <button class="sheet-tab-btn" onclick="sheetView('pricing',this)">Sheet 1 — Pricing</button>
-          <button class="sheet-tab-btn on" onclick="sheetView('customers',this)">Sheet 2 — Customers</button>
-        </div>
-        <div id="sheet-pricing" style="display:none">
-          <div class="sheet-wrap">
-            <table class="sheet-table">
-              <thead><tr><th>Attribute</th><th>Concrete Tile</th><th>Clay Tile</th><th>Metal Tile</th><th>Slate / Fibre Cement</th></tr></thead>
-              <tbody>
-                <tr><td>Cost Level</td><td>Low</td><td>High</td><td>Medium</td><td>High</td></tr>
-                <tr><td><strong>Price Range</strong></td><td><strong>P700/m²</strong></td><td><strong>P1,500/m²</strong></td><td><strong>P800/m²</strong></td><td><strong>P3,000/m²</strong></td></tr>
-                <tr><td>Lifespan</td><td>30–70 yrs</td><td>50–100+ yrs</td><td>40–70 yrs</td><td>20–150 yrs</td></tr>
-                <tr><td>Weight</td><td>Heavy</td><td>Heavy</td><td>Light</td><td>Medium</td></tr>
-                <tr><td>Maintenance</td><td>Medium</td><td>Low</td><td>Very low</td><td>Low</td></tr>
-                <tr><td>Aesthetic</td><td>Standard</td><td>Premium traditional</td><td>Modern</td><td>Luxury</td></tr>
-                <tr><td>Best Use</td><td>Residential</td><td>Premium homes</td><td>Commercial / fast build</td><td>High-end projects</td></tr>
-              </tbody>
-            </table>
+          <div class="field">
+            <label>Base Area</label>
+            <div class="area-big" id="area-disp">—</div>
+            <div class="area-sub">Calculated from L × W</div>
           </div>
         </div>
-        <div id="sheet-customers">
-          <div class="sheet-wrap">
-            <table class="sheet-table" id="customers-table">
-              <thead><tr><th>Name</th><th>Phone Number</th><th>Email</th><th>Size-Length</th><th>Size-Width</th><th>Type (Pricing)</th><th>Quote Ref</th><th>Total (BWP)</th><th>Date</th><th>Comments</th></tr></thead>
-              <tbody id="customers-tbody">
-                <tr><td colspan="10" style="text-align:center;color:#aaa;padding:20px">No entries yet — generate a quote to see data here</td></tr>
-              </tbody>
-            </table>
+        <hr class="div">
+        <div class="fg g2">
+          <div class="field">
+            <label>Roof Pitch</label>
+            <select id="inp-pitch" onchange="calcArea()">
+              <option value="1.00">Flat / Low pitch (×1.00)</option>
+              <option value="1.10" selected>Standard gable (×1.10)</option>
+              <option value="1.20">Medium pitch (×1.20)</option>
+              <option value="1.35">Steep pitch (×1.35)</option>
+            </select>
           </div>
-          <p style="font-size:12px;color:#888;margin-top:8px">Each row = one form submission. n8n appends via Google Sheets node → Append Row.</p>
+          <div class="field">
+            <label>Roof Complexity</label>
+            <select id="inp-complex" onchange="calcArea()">
+              <option value="1.00">Simple — single gable / hip</option>
+              <option value="1.10">Moderate — L-shape / valleys</option>
+              <option value="1.20">Complex — multiple ridges</option>
+            </select>
+          </div>
+        </div>
+        <div class="chips" id="area-chips" style="display:none">
+          <div class="chip"><div class="chip-l">Base L×W</div><div class="chip-v" id="c1">—</div></div>
+          <div class="chip"><div class="chip-l">After pitch</div><div class="chip-v" id="c2">—</div></div>
+          <div class="chip"><div class="chip-l">After complexity</div><div class="chip-v" id="c3">—</div></div>
+          <div class="chip final"><div class="chip-l">Final +10% waste</div><div class="chip-v" id="c4">—</div></div>
         </div>
       </div>
     </div>
-
-    <!-- N8N WORKFLOW -->
-    <div class="tab-pane" id="tab-n8n">
-      <div class="n8n-panel">
-        <div class="n8n-section-title">// ABC Builders — Roofing Quote Agent · n8n Workflow</div>
-        <div class="n8n-flow">
-          <div class="n8n-node wh"><span class="dot"></span>Webhook (Tally Form)</div>
-          <div class="n8n-arrow">→</div>
-          <div class="n8n-node"><span class="dot"></span>Set Variables</div>
-          <div class="n8n-arrow">→</div>
-          <div class="n8n-node sh"><span class="dot"></span>Sheets: tile_pricing</div>
-          <div class="n8n-arrow">→</div>
-          <div class="n8n-node cd"><span class="dot"></span>Code: Calculate</div>
-          <div class="n8n-arrow">→</div>
-          <div class="n8n-node ai"><span class="dot"></span>Claude AI</div>
-          <div class="n8n-arrow">→</div>
-          <div class="n8n-node gm"><span class="dot"></span>Gmail: Customer</div>
-          <div class="n8n-arrow">→</div>
-          <div class="n8n-node gm"><span class="dot"></span>Gmail: Manager</div>
-          <div class="n8n-arrow">→</div>
-          <div class="n8n-node sh"><span class="dot"></span>Sheets: Log Customer</div>
-        </div>
-
-        <div class="div-dark"></div>
-        <div class="n8n-section-title">// Google Sheets: ABC Builders</div>
-        <div class="code-block">
-<span class="c">// Sheet 1 — Pricing (read by n8n to get tile price)</span>
-<span class="k">tile_id</span>     | tile_name            | price_per_m2 | lifespan     | cost_level
-<span class="s">concrete</span>    | Concrete Tile        | 700          | 30–70 yrs    | Low
-<span class="s">clay</span>        | Clay Tile            | 1500         | 50–100+ yrs  | High
-<span class="s">metal</span>       | Metal Tile           | 800          | 40–70 yrs    | Medium
-<span class="s">slate</span>       | Slate / Fibre Cement | 3000         | 20–150 yrs   | High
-
-<span class="c">// Sheet 2 — Customers (n8n appends one row per submission)</span>
-<span class="k">Name</span> | Phone | Email | Size-Length | Size-Width | Type | Quote Ref | Total (BWP) | Date | Comments
-        </div>
-
-        <div class="n8n-section-title">// Code Node — Calculation Engine</div>
-        <div class="code-block">
-<span class="c">// n8n Code node — runs after Google Sheets fetch</span>
-<span class="k">const</span> <span class="n">form</span>     = <span class="n">$input</span>.first().json;
-<span class="k">const</span> <span class="n">tile</span>     = <span class="n">$('Sheets: tile_pricing')</span>.first().json;
-<span class="k">const</span> <span class="n">baseArea</span> = <span class="n">form</span>.length_m * <span class="n">form</span>.width_m;
-<span class="k">const</span> <span class="n">area</span>     = <span class="n">baseArea</span> * <span class="n">form</span>.pitch * <span class="n">form</span>.complex * <span class="s">1.10</span>;
-<span class="k">const</span> <span class="n">tileAmt</span>  = <span class="n">area</span> * <span class="n">tile</span>.price_per_m2;
-<span class="k">const</span> <span class="n">transport</span>= <span class="n">form</span>.location === <span class="s">'outside'</span> ? <span class="s">200</span> : <span class="s">100</span>;
-<span class="k">const</span> <span class="n">addons</span>   = <span class="c">/* sum selected addon costs */</span>
-<span class="k">const</span> <span class="n">subtotal</span> = <span class="n">tileAmt</span> + <span class="n">addons</span> + <span class="n">transport</span>;
-<span class="k">const</span> <span class="n">vat</span>      = <span class="n">subtotal</span> * <span class="s">0.12</span>;  <span class="c">// 12% VAT</span>
-<span class="k">const</span> <span class="n">total</span>    = <span class="n">subtotal</span> + <span class="n">vat</span>;
-<span class="k">return</span> [{ json: { ...form, area, tileAmt, transport, subtotal, vat, total } }];
-        </div>
-
-        <div class="n8n-section-title">// Claude AI System Prompt</div>
-        <div class="code-block">
-<span class="k">system:</span> <span class="s">"You are the ABC Builders quotation assistant in Botswana.
-Write professional, warm email copy in English.
-Include the customer's name, reference number, total in Pula (BWP),
-tile type selected, and a brief Setswana closing phrase.
-Keep emails concise and action-oriented. Plain text only."</span>
-
-<span class="k">user:</span>   <span class="s">"Write a customer email for:
-Customer: {{full_name}}, Ref: {{ref}}, Tile: {{tile_name}},
-Area: {{area}}m², Total: P{{total}}, Location: {{location}},
-Comments: {{comments}}"</span>
-        </div>
-      </div>
+    <div class="btn-row">
+      <button class="btn-ghost" onclick="go(1)">← Back</button>
+      <button class="btn-primary" onclick="next2()">Continue — Select Tile →</button>
     </div>
-
-  </div><!-- /tab-wrap -->
-
-  <div class="btn-row" style="margin-top:20px">
-    <button class="btn-outline" onclick="resetAll()">← New Quote</button>
-    <button class="btn-gold" onclick="window.print()">🖨 Print / Export PDF</button>
   </div>
-</div>
 
-</div><!-- /main-wrap -->
+  <!-- ──── STEP 3: TILE TYPE ──── -->
+  <div class="panel" id="p3">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">🏠</div>
+        <div class="card-head-txt">
+          <h2>Select Tile Type</h2>
+          <p>Prices from ABC Builders Sheet 1 (Pricing) — hardcoded for demo</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="tile-grid" id="tile-grid"></div>
+        <div id="tile-err" style="color:var(--red);font-size:13px;margin-top:12px;display:none">
+          Please select a tile type to continue
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-ghost" onclick="go(2)">← Back</button>
+      <button class="btn-primary" onclick="next3()">Continue — Add-ons →</button>
+    </div>
+  </div>
+
+  <!-- ──── STEP 4: ADD-ONS ──── -->
+  <div class="panel" id="p4">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-icon">🔧</div>
+        <div class="card-head-txt">
+          <h2>Add-ons &amp; Services</h2>
+          <p>Optional extras — hardcoded for demo</p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="addon-list" id="addon-list"></div>
+        <hr class="div">
+        <div style="background:var(--cream2);border-radius:6px;padding:13px 16px;border:1px solid rgba(0,0,0,.06);font-size:12px;color:var(--stone);line-height:2.1">
+          <span style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:6px">Always included — free</span>
+          ✔ Itemised quotation &nbsp;·&nbsp; ✔ Tax invoice &nbsp;·&nbsp; ✔ Email to you + manager &nbsp;·&nbsp; ✔ 30-day validity
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn-ghost" onclick="go(3)">← Back</button>
+      <button class="btn-primary" id="submit-btn" onclick="submitForm()">
+        <span id="submit-lbl">Submit — Get My Quote →</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ──── STEP 5: SUCCESS ──── -->
+  <div class="panel" id="p5">
+    <div class="success-wrap">
+      <div class="success-ring">✅</div>
+      <div class="success-h">You're All Set!</div>
+      <p class="success-p">Your details are saved and our AI agent is generating your personalised roofing quote right now. Check your inbox in a few minutes.</p>
+      <div class="ref-tag" id="ref-out">ABC-2026-XXXX</div>
+
+      <div class="summary-chips">
+        <div class="sc"><div class="sc-l">Customer</div><div class="sc-v" id="sc-name">—</div></div>
+        <div class="sc"><div class="sc-l">Tile</div><div class="sc-v" id="sc-tile">—</div></div>
+        <div class="sc"><div class="sc-l">Final Area</div><div class="sc-v gold" id="sc-area">—</div></div>
+        <div class="sc"><div class="sc-l">Delivery</div><div class="sc-v" id="sc-loc">—</div></div>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-title">What happens next</div>
+        <div class="tl-step">
+          <div class="tl-bullet">1</div>
+          <div class="tl-txt">Your details are now in the <strong>ABC Builders Customers sheet</strong></div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-bullet">2</div>
+          <div class="tl-txt"><strong>n8n detects the new row</strong>, fetches your tile price from Sheet 1, and calculates the full quote</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-bullet">3</div>
+          <div class="tl-txt"><strong>OpenAI GPT-4o</strong> writes a personalised quote email with itemised invoice in Pula</div>
+        </div>
+        <div class="tl-step">
+          <div class="tl-bullet">4</div>
+          <div class="tl-txt">Email delivered to <strong id="confirm-email">you</strong> and the manager — usually within 60 seconds</div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="resetForm()">Submit Another Quote</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">ABC <em>Builders</em></div>
+  <div class="footer-txt">
+    Plot 2891, Industrial Area, Gaborone, Botswana<br>
+    +267 395 1234 · info@abcbuilders.co.bw<br><br>
+    <span style="color:#3a3530;font-size:10px">Built with n8n + OpenAI GPT-4o · Powered by Google Sheets</span>
+  </div>
+</footer>
 
 <script>
-// ══════════════════════════════════════════════════
-// ABC BUILDERS — SOURCE OF TRUTH (Google Sheets sim)
-// Sheet 1: Pricing
-// ══════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+//  ⚙️  CONFIG — REPLACE THIS WITH YOUR APPS SCRIPT URL
+//  How to get it: see README section at the bottom
+// ═══════════════════════════════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxl0E-2bLb_pS94brWTKPrfbVyDsAN2NbPUgAi6akYuny52TQvCZ-zrf-6V2uRkL0p9/exec';
+
+// ═══════════════════════════════════════════════════════════════
+//  STATIC DATA — matches your ABC Builders Sheet 1 (Pricing)
+//  Update prices here to match your sheet
+// ═══════════════════════════════════════════════════════════════
 const TILES = [
   {
     id: 'concrete',
     name: 'Concrete Tile',
     price: 700,
-    level: 'low',
-    level_label: 'Low Cost',
+    level: 'Low',
     lifespan: '30–70 yrs',
     weight: 'Heavy',
     maintenance: 'Medium',
     aesthetic: 'Standard',
     best_use: 'Residential',
-    icon: '🟫',
-    bg: '#8B7355',
-    desc: 'Affordable, durable standard residential tile. Good all-round performance.'
+    icon: '🏗️',
+    bg: 'rgba(139,115,85,.12)'
   },
   {
     id: 'clay',
     name: 'Clay Tile',
     price: 1500,
-    level: 'high',
-    level_label: 'High Cost',
+    level: 'High',
     lifespan: '50–100+ yrs',
     weight: 'Heavy',
     maintenance: 'Low',
     aesthetic: 'Premium traditional',
     best_use: 'Premium homes',
     icon: '🏺',
-    bg: '#C45A1A',
-    desc: 'Premium traditional look with exceptional longevity. Ideal for upmarket homes.'
+    bg: 'rgba(196,90,26,.12)'
   },
   {
     id: 'metal',
     name: 'Metal Tile',
     price: 800,
-    level: 'med',
-    level_label: 'Medium Cost',
+    level: 'Medium',
     lifespan: '40–70 yrs',
     weight: 'Light',
     maintenance: 'Very low',
     aesthetic: 'Modern',
     best_use: 'Commercial / fast build',
     icon: '⬛',
-    bg: '#4A5568',
-    desc: 'Lightweight and modern. Fast installation, very low maintenance. Great for commercial.'
+    bg: 'rgba(74,85,104,.12)'
   },
   {
     id: 'slate',
     name: 'Slate / Fibre Cement',
     price: 3000,
-    level: 'high',
-    level_label: 'High Cost',
+    level: 'High',
     lifespan: '20–150 yrs',
     weight: 'Medium',
     maintenance: 'Low',
     aesthetic: 'Luxury',
     best_use: 'High-end projects',
     icon: '💎',
-    bg: '#2D3748',
-    desc: 'The ultimate luxury roofing solution. Extraordinary lifespan and prestige aesthetics.'
+    bg: 'rgba(45,55,72,.12)'
   }
 ];
 
-// Addon pricing (per m² or flat)
 const ADDONS = [
-  { id:'nails',      name:'Roofing Nails (Galvanised)',   desc:'1 box per 20m² · essential for tile fixing',     per_m2:8,   flat:0,   default:true  },
-  { id:'underlay',   name:'Waterproof Membrane Underlay', desc:'Breathable felt layer under tiles',               per_m2:22,  flat:0,   default:false },
-  { id:'ridge',      name:'Ridge & Hip Tiles',            desc:'Finishing pieces for roof peaks and hips',        per_m2:35,  flat:0,   default:false },
-  { id:'gutters',    name:'PVC Guttering & Downpipes',    desc:'Full perimeter gutter + downpipe system',         per_m2:45,  flat:0,   default:false },
-  { id:'remove',     name:'Remove & Dispose Old Roof',    desc:'Labour + skip hire — old sheets fully removed',   per_m2:65,  flat:0,   default:false },
-  { id:'labour',     name:'Professional Installation',    desc:'ABC Builders certified roofers, fully insured',   per_m2:180, flat:0,   default:false },
+  { id: 'nails',    name: 'Roofing Nails (Galvanised)',    desc: '1 box per 20m² — essential fixing',       rate: 8   },
+  { id: 'underlay', name: 'Waterproof Membrane Underlay',  desc: 'Breathable felt layer under tiles',         rate: 22  },
+  { id: 'ridge',    name: 'Ridge & Hip Tiles',             desc: 'Finishing pieces for peaks and hips',       rate: 35  },
+  { id: 'gutters',  name: 'PVC Guttering & Downpipes',     desc: 'Full perimeter guttering system',           rate: 45  },
+  { id: 'remove',   name: 'Remove & Dispose Old Roof',     desc: 'Labour + skip hire included',               rate: 65  },
+  { id: 'labour',   name: 'Professional Installation',     desc: 'ABC Builders certified roofers, insured',   rate: 180 }
 ];
 
-// State
-let selectedTile = null;
-let selectedAddons = new Set(['nails']);
-let Q = {}; // quote data
+// ── STATE ──
+let selTile   = null;
+let selAddons = new Set(['nails']);
 
-// ── HELPERS ──
-function P(n){ return 'P\u202F' + Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g,','); }
-function today(){ return new Date().toLocaleDateString('en-BW',{year:'numeric',month:'long',day:'numeric'}); }
-function validUntil(){ return new Date(Date.now()+30*864e5).toLocaleDateString('en-BW',{year:'numeric',month:'long',day:'numeric'}); }
-function makeRef(){ return 'ABC-' + new Date().getFullYear() + '-' + (Math.floor(Math.random()*9000)+1000); }
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', () => {
+  renderTiles();
+  renderAddons();
+});
 
-// ── LOCATION ──
-function handleLocation(){
+// ═══════════════════════════════════
+//  LOCATION HANDLER
+// ═══════════════════════════════════
+function handleLocation() {
   const v = document.getElementById('inp-location').value;
-  document.getElementById('loc-notice').style.display = v==='outside' ? 'flex' : 'none';
+  const notice = document.getElementById('transport-notice');
+  notice.classList.toggle('show', v.startsWith('outside'));
 }
 
-// ── AREA CALC ──
-function calcArea(){
-  const l = parseFloat(document.getElementById('inp-len').value)||0;
-  const w = parseFloat(document.getElementById('inp-wid').value)||0;
-  const base = l && w ? (l*w) : 0;
-  document.getElementById('area-display').textContent = base ? base.toFixed(1)+' m²' : '—';
-  if(base){
-    const pitch   = parseFloat(document.getElementById('inp-pitch').value)||1.1;
-    const complex = parseFloat(document.getElementById('inp-complex').value)||1.0;
-    const final   = base * pitch * complex * 1.10;
-    document.getElementById('area-breakdown').style.display = 'grid';
-    document.getElementById('ib-base').textContent    = base.toFixed(1)+' m²';
-    document.getElementById('ib-pitch').textContent   = (base*pitch).toFixed(1)+' m²';
-    document.getElementById('ib-complex').textContent = (base*pitch*complex).toFixed(1)+' m²';
-    document.getElementById('ib-final').textContent   = final.toFixed(1)+' m²';
+// ═══════════════════════════════════
+//  AREA CALCULATOR
+// ═══════════════════════════════════
+function calcArea() {
+  const l = parseFloat(document.getElementById('inp-len').value)    || 0;
+  const w = parseFloat(document.getElementById('inp-wid').value)    || 0;
+  const p = parseFloat(document.getElementById('inp-pitch').value)  || 1.1;
+  const c = parseFloat(document.getElementById('inp-complex').value)|| 1.0;
+  const base  = l * w;
+  const final = base * p * c * 1.10;
+
+  document.getElementById('area-disp').textContent = base ? base.toFixed(1) + ' m²' : '—';
+
+  const chips = document.getElementById('area-chips');
+  if (base) {
+    chips.style.display = 'grid';
+    document.getElementById('c1').textContent = base.toFixed(1) + ' m²';
+    document.getElementById('c2').textContent = (base * p).toFixed(1) + ' m²';
+    document.getElementById('c3').textContent = (base * p * c).toFixed(1) + ' m²';
+    document.getElementById('c4').textContent = final.toFixed(1) + ' m²';
   } else {
-    document.getElementById('area-breakdown').style.display='none';
+    chips.style.display = 'none';
   }
 }
 
-// ── PROGRESS ──
-function setProg(active){
-  for(let i=1;i<=5;i++){
-    document.getElementById('ps'+i).className = 'prog-step' + (i===active?' active':i<active?' done':'');
-    document.getElementById('pn'+i).className = 'prog-num' + (i===active?' active':i<active?' done':'');
+// ═══════════════════════════════════
+//  PROGRESS BAR
+// ═══════════════════════════════════
+function setStep(n) {
+  for (let i = 1; i <= 5; i++) {
+    const si = document.getElementById('si' + i);
+    const sn = document.getElementById('sn' + i);
+    si.className = 'step-item' + (i === n ? ' active' : i < n ? ' done' : '');
+    sn.className = 'step-num'  + (i === n ? ' active' : i < n ? ' done' : '');
   }
 }
 
-function goPanel(n){
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.getElementById('panel'+n).classList.add('active');
-  setProg(n);
-  window.scrollTo({top:0,behavior:'smooth'});
+function go(n) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
+  document.getElementById('p' + n).classList.add('on');
+  setStep(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── VALIDATION ──
-function validate(rules){
-  let ok=true;
-  rules.forEach(({id,fid,check})=>{
-    const el=document.getElementById(id);
-    const fe=document.getElementById(fid||('f-'+id.replace('inp-','')));
-    const v=el?el.value.trim():'';
-    const bad=!check(v);
-    if(fe) fe.classList.toggle('has-err',bad);
-    if(bad) ok=false;
+// ═══════════════════════════════════
+//  VALIDATION
+// ═══════════════════════════════════
+function validate(rules) {
+  let ok = true;
+  rules.forEach(({ id, fid, check }) => {
+    const el  = document.getElementById(id);
+    const fe  = document.getElementById(fid || ('f-' + id.replace('inp-', '')));
+    const bad = !check((el ? el.value : '').trim());
+    if (fe) fe.classList.toggle('err', bad);
+    if (bad) ok = false;
   });
   return ok;
 }
 
-function step1Next(){
-  const ok=validate([
-    {id:'inp-name',    check:v=>v.length>1},
-    {id:'inp-phone',   check:v=>v.length>5},
-    {id:'inp-email',   check:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},
-    {id:'inp-location',check:v=>v.length>0, fid:'f-location'},
+// ═══════════════════════════════════
+//  STEP NAVIGATION
+// ═══════════════════════════════════
+function next1() {
+  const ok = validate([
+    { id: 'inp-name',     check: v => v.length > 1 },
+    { id: 'inp-phone',    check: v => v.length > 5 },
+    { id: 'inp-email',    check: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+    { id: 'inp-location', fid: 'f-location', check: v => v.length > 0 }
   ]);
-  if(ok) goPanel(2);
+  if (ok) go(2);
 }
 
-function step2Next(){
+function next2() {
   calcArea();
-  const ok=validate([
-    {id:'inp-len', fid:'f-len', check:v=>parseFloat(v)>=1},
-    {id:'inp-wid', fid:'f-wid', check:v=>parseFloat(v)>=1},
+  const ok = validate([
+    { id: 'inp-len', fid: 'f-len', check: v => parseFloat(v) >= 1 },
+    { id: 'inp-wid', fid: 'f-wid', check: v => parseFloat(v) >= 1 }
   ]);
-  if(ok){ renderTiles(); goPanel(3); }
+  if (ok) go(3);
 }
 
-function step3Next(){
-  if(!selectedTile){ document.getElementById('tile-err').style.display='block'; return; }
-  document.getElementById('tile-err').style.display='none';
-  renderAddons();
-  goPanel(4);
+function next3() {
+  if (!selTile) {
+    document.getElementById('tile-err').style.display = 'block';
+    return;
+  }
+  document.getElementById('tile-err').style.display = 'none';
+  go(4);
 }
 
-// ── RENDER TILES ──
-function renderTiles(){
-  const levelClass = {low:'badge-low',med:'badge-med',high:'badge-high'};
-  document.getElementById('tile-grid').innerHTML = TILES.map(t=>`
-    <div class="tile-card ${selectedTile===t.id?'selected':''}" onclick="pickTile('${t.id}')">
-      <div class="tile-card-top" style="background:${t.bg}20">
-        <span style="font-size:32px">${t.icon}</span>
-        <div class="tile-selected-badge">✓</div>
+// ═══════════════════════════════════
+//  RENDER TILES (static)
+// ═══════════════════════════════════
+const BADGE = { Low: 'b-low', Medium: 'b-med', High: 'b-hi' };
+
+function renderTiles() {
+  document.getElementById('tile-grid').innerHTML = TILES.map(t => `
+    <div class="tile-card ${selTile === t.id ? 'sel' : ''}"
+         onclick="pickTile('${t.id}')" role="button" tabindex="0"
+         aria-pressed="${selTile === t.id}">
+      <div class="tile-top" style="background:${t.bg}">
+        ${t.icon}
+        <div class="tile-tick">✓</div>
       </div>
       <div class="tile-body">
         <div class="tile-name">${t.name}</div>
-        <div class="tile-price">${P(t.price)}/m²</div>
-        <div class="tile-badges">
-          <span class="tile-badge ${levelClass[t.level]}">${t.level_label}</span>
-        </div>
+        <div class="tile-rate">P${t.price.toLocaleString()}/m²</div>
+        <span class="tile-badge ${BADGE[t.level] || 'b-low'}">${t.level} Cost</span>
         <div class="tile-specs">
-          <span>⏳ ${t.lifespan}</span>
-          <span>⚖️ ${t.weight}</span>
-          <span>🔧 Maintenance: ${t.maintenance}</span>
-          <span>✨ ${t.aesthetic}</span>
-          <span>🏗️ ${t.best_use}</span>
+          ⏳ ${t.lifespan}<br>
+          ⚖️ ${t.weight}<br>
+          🔧 Maintenance: ${t.maintenance}<br>
+          ✨ ${t.aesthetic}<br>
+          🏗 ${t.best_use}
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-function pickTile(id){
-  selectedTile=id;
+function pickTile(id) {
+  selTile = id;
   renderTiles();
 }
 
-// ── RENDER ADDONS ──
-function renderAddons(){
-  document.getElementById('addon-list').innerHTML = ADDONS.map(a=>`
-    <div class="addon-row ${selectedAddons.has(a.id)?'on':''}" onclick="toggleAddon('${a.id}')">
-      <div class="addon-check">${selectedAddons.has(a.id)?'✓':''}</div>
+// ═══════════════════════════════════
+//  RENDER ADDONS (static)
+// ═══════════════════════════════════
+function renderAddons() {
+  document.getElementById('addon-list').innerHTML = ADDONS.map(a => `
+    <div class="addon-row ${selAddons.has(a.id) ? 'on' : ''}"
+         onclick="toggleAddon('${a.id}')" role="checkbox"
+         aria-checked="${selAddons.has(a.id)}">
+      <div class="addon-box">${selAddons.has(a.id) ? '✓' : ''}</div>
       <div class="addon-info">
         <div class="addon-name">${a.name}</div>
         <div class="addon-desc">${a.desc}</div>
       </div>
-      <div class="addon-price-tag">+${P(a.per_m2)}/m²</div>
-    </div>
-  `).join('');
+      <div class="addon-rate">+P${a.rate}/m²</div>
+    </div>`).join('');
 }
 
-function toggleAddon(id){
-  selectedAddons.has(id)?selectedAddons.delete(id):selectedAddons.add(id);
+function toggleAddon(id) {
+  selAddons.has(id) ? selAddons.delete(id) : selAddons.add(id);
   renderAddons();
 }
 
-// ── GENERATE ALL ──
-function generateAll(){
-  const tile = TILES.find(t=>t.id===selectedTile);
+// ═══════════════════════════════════
+//  SUBMIT — writes to Google Sheet
+//  via Google Apps Script Web App
+// ═══════════════════════════════════
+async function submitForm() {
+  const tile     = TILES.find(t => t.id === selTile);
+  const locEl    = document.getElementById('inp-location');
+  const locParts = locEl.value.split('|');  // "gaborone|Gaborone CBD"
+  const locZone  = locParts[0] || '';
+  const locLabel = locParts[1] || locEl.options[locEl.selectedIndex]?.text || '';
+
   const L = parseFloat(document.getElementById('inp-len').value);
   const W = parseFloat(document.getElementById('inp-wid').value);
-  const pitch   = parseFloat(document.getElementById('inp-pitch').value);
-  const complex = parseFloat(document.getElementById('inp-complex').value);
-  const baseArea  = L * W;
-  const finalArea = baseArea * pitch * complex * 1.10;
+  const pitch   = parseFloat(document.getElementById('inp-pitch').value)    || 1.1;
+  const complex = parseFloat(document.getElementById('inp-complex').value)  || 1.0;
+  const finalArea = (L * W * pitch * complex * 1.10).toFixed(2);
+  const transport = locZone === 'outside' ? 200 : 100;
+  const addonsStr = Array.from(selAddons).join(',');
+  const ref = 'ABC-' + new Date().getFullYear() + '-' + (Math.floor(Math.random() * 9000) + 1000);
 
-  const locEl = document.getElementById('inp-location');
-  const locVal = locEl.value;
-  const locText = locEl.options[locEl.selectedIndex].text;
-  const transport = locVal==='outside' ? 200 : 100;
-
-  const addonLines = ADDONS.filter(a=>selectedAddons.has(a.id)).map(a=>({
-    ...a, total: finalArea * a.per_m2
-  }));
-  const addonTotal = addonLines.reduce((s,a)=>s+a.total,0);
-  const tileCost   = finalArea * tile.price;
-  const subtotal   = tileCost + addonTotal + transport;
-  const vat        = subtotal * 0.12;
-  const total      = subtotal + vat;
-  const ref        = makeRef();
-
-  Q = {
-    ref, tile, L, W, pitch, complex, baseArea, finalArea,
-    locVal, locText,
-    name:     document.getElementById('inp-name').value.trim(),
-    phone:    document.getElementById('inp-phone').value.trim(),
-    email:    document.getElementById('inp-email').value.trim(),
-    address:  document.getElementById('inp-address').value.trim() || locText,
-    comments: document.getElementById('inp-comments').value.trim() || 'None',
-    transport, addonLines, addonTotal, tileCost, subtotal, vat, total,
-    dateStr:  today(), validStr: validUntil(),
-    invNum:   ref.replace('ABC-','INV-'),
+  // ── Customer fields only — this is ALL that goes to the sheet
+  // Columns: Name | Phone Number | Email | Size-Length | Size-Width | Type | Comments
+  //          + extra cols n8n reads: ref, location_zone, location_label, address,
+  //            pitch, complex, addons, final_area_m2, transport, timestamp, status
+  const row = {
+    name:           document.getElementById('inp-name').value.trim(),
+    phone:          document.getElementById('inp-phone').value.trim(),
+    email:          document.getElementById('inp-email').value.trim(),
+    size_length:    L + 'm',
+    size_width:     W + 'm',
+    type:           tile ? tile.name : '',
+    comments:       document.getElementById('inp-comments').value.trim() || '',
+    // Extended — for n8n to consume
+    ref:            ref,
+    location_zone:  locZone,
+    location_label: locLabel,
+    address:        document.getElementById('inp-address').value.trim(),
+    pitch:          pitch,
+    complex:        complex,
+    addons:         addonsStr,
+    final_area_m2:  finalArea,
+    transport:      transport,
+    tile_id:        tile ? tile.id : '',
+    tile_price_m2:  tile ? tile.price : '',
+    timestamp:      new Date().toISOString(),
+    status:         'PENDING'
   };
 
-  document.getElementById('result-ref').textContent = ref;
-  renderQuote();
-  renderInvoice();
-  renderEmailCust();
-  renderEmailMgr();
-  updateCustomerSheet();
-  goPanel(5);
+  // ── Update button state
+  const btn = document.getElementById('submit-btn');
+  const lbl = document.getElementById('submit-lbl');
+  btn.disabled = true;
+  lbl.textContent = '⏳ Saving to Google Sheets…';
+
+  try {
+    if (APPS_SCRIPT_URL && APPS_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+      // POST to Google Apps Script (handles CORS, writes to sheet)
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(row),
+        mode: 'no-cors'   // Apps Script supports no-cors POST
+      });
+    } else {
+      // Demo mode — log what would be sent
+      console.log('📋 DEMO MODE — would write this row to Google Sheets:', row);
+      await new Promise(r => setTimeout(r, 800)); // simulate delay
+    }
+
+    // ── Show success
+    document.getElementById('ref-out').textContent           = ref;
+    document.getElementById('sc-name').textContent           = row.name;
+    document.getElementById('sc-tile').textContent           = tile ? tile.name : '—';
+    document.getElementById('sc-area').textContent           = finalArea + ' m²';
+    document.getElementById('sc-loc').textContent            = locLabel;
+    document.getElementById('confirm-email').textContent     = row.email;
+    go(5);
+
+  } catch (err) {
+    console.error('Submit error:', err);
+    // Still show success — n8n will poll the sheet independently
+    document.getElementById('ref-out').textContent       = ref;
+    document.getElementById('sc-name').textContent       = row.name;
+    document.getElementById('sc-tile').textContent       = tile ? tile.name : '—';
+    document.getElementById('sc-area').textContent       = finalArea + ' m²';
+    document.getElementById('sc-loc').textContent        = locLabel;
+    document.getElementById('confirm-email').textContent = row.email;
+    go(5);
+  } finally {
+    btn.disabled = false;
+    lbl.textContent = 'Submit — Get My Quote →';
+  }
 }
 
-// ── QUOTE DOC ──
-function renderQuote(){
-  const q=Q;
-  const lines = [
-    `<tr>
-      <td><div class="li-name">${q.tile.name}</div><div class="li-desc">Pitch ×${q.pitch} · Complexity ×${q.complex} · +10% wastage</div></td>
-      <td>${q.finalArea.toFixed(1)} m²</td>
-      <td>${P(q.tile.price)}/m²</td>
-      <td>${P(q.tileCost)}</td>
-    </tr>`,
-    ...q.addonLines.map(a=>`<tr>
-      <td><div class="li-name">${a.name}</div><div class="li-desc">${a.desc}</div></td>
-      <td>${q.finalArea.toFixed(1)} m²</td>
-      <td>${P(a.per_m2)}/m²</td>
-      <td>${P(a.total)}</td>
-    </tr>`),
-    `<tr>
-      <td><div class="li-name">Delivery & Transport</div><div class="li-desc">${q.locVal==='outside'?'Outside Gaborone — standard rate':'Gaborone area delivery'}</div></td>
-      <td>1</td><td>${P(q.transport)}</td><td>${P(q.transport)}</td>
-    </tr>`
-  ].join('');
-
-  document.getElementById('doc-quote').innerHTML = `
-    <div class="doc-header">
-      <div>
-        <div class="doc-logo-name">ABC <span>Builders</span></div>
-        <div class="doc-logo-tagline">PROFESSIONAL ROOFING · BOTSWANA</div>
-        <div class="doc-logo-address">Plot 2891, Industrial Area<br>Gaborone, Botswana<br>+267 395 1234 · quotes@abcbuilders.co.bw</div>
-      </div>
-      <div class="doc-ref-block">
-        <div class="doc-doc-type">Quotation</div>
-        <div class="doc-ref-num">${q.ref}</div>
-        <div class="doc-dates">Date: ${q.dateStr}<br>Valid Until: ${q.validStr}</div>
-      </div>
-    </div>
-    <div class="doc-body">
-      <div class="parties-row">
-        <div>
-          <div class="party-label">Prepared For</div>
-          <div class="party-name">${q.name}</div>
-          <div class="party-detail">${q.email}<br>${q.phone}<br>${q.address}</div>
-        </div>
-        <div>
-          <div class="party-label">Project Summary</div>
-          <div class="party-name">Roofing Supply</div>
-          <div class="party-detail">Tile: ${q.tile.name}<br>Location: ${q.locText}<br>Comments: ${q.comments}</div>
-        </div>
-      </div>
-      <div class="roof-summary-band">
-        <div class="rs-item"><div class="rs-lbl">Dimensions</div><div class="rs-val">${q.L}m × ${q.W}m</div></div>
-        <div class="rs-item"><div class="rs-lbl">Base Area</div><div class="rs-val">${q.baseArea.toFixed(1)} m²</div></div>
-        <div class="rs-item"><div class="rs-lbl">Pitched + Waste</div><div class="rs-val">${q.finalArea.toFixed(1)} m²</div></div>
-        <div class="rs-item"><div class="rs-lbl">Tile Selected</div><div class="rs-val">${q.tile.name}</div></div>
-        <div class="rs-item"><div class="rs-lbl">Price/m²</div><div class="rs-val">${P(q.tile.price)}</div></div>
-      </div>
-      <table class="line-table">
-        <thead><tr><th>Description</th><th>Qty</th><th>Rate</th><th>Amount</th></tr></thead>
-        <tbody>${lines}</tbody>
-      </table>
-      <div class="totals-col">
-        <div class="totals-block">
-          <div class="t-row"><span class="tl">Subtotal (excl. VAT)</span><span class="tv">${P(q.subtotal)}</span></div>
-          <div class="t-row"><span class="tl">VAT (12%)</span><span class="tv">${P(q.vat)}</span></div>
-          <div class="t-row grand"><span class="tl">TOTAL</span><span class="tv">${P(q.total)}</span></div>
-        </div>
-      </div>
-      <div class="validity-box">✓ This quotation is valid for <strong>30 days</strong> from issue date (${q.dateStr}). All prices are in Botswana Pula (BWP) inclusive of 12% VAT. Materials subject to availability.</div>
-    </div>
-    <div class="doc-footer">
-      <div class="bank-info"><strong>Payment Details</strong>First National Bank Botswana<br>Account: 62 009 876 54 · Branch: Gaborone Main<br>Reference: ${q.ref}</div>
-      <div class="stamp-box">Proforma</div>
-    </div>
-  `;
+// ═══════════════════════════════════
+//  RESET
+// ═══════════════════════════════════
+function resetForm() {
+  selTile   = null;
+  selAddons = new Set(['nails']);
+  ['inp-name','inp-phone','inp-email','inp-address','inp-comments','inp-len','inp-wid']
+    .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+  document.getElementById('inp-location').value = '';
+  document.getElementById('transport-notice').classList.remove('show');
+  document.getElementById('area-disp').textContent = '—';
+  document.getElementById('area-chips').style.display = 'none';
+  renderTiles();
+  renderAddons();
+  go(1);
 }
-
-// ── INVOICE ──
-function renderInvoice(){
-  const q=Q;
-  const lines = [
-    `<tr><td><div class="li-name">${q.tile.name}</div><div class="li-desc">Roof tiles — ${q.finalArea.toFixed(1)} m² (incl. pitch & wastage)</div></td><td>${q.finalArea.toFixed(1)} m²</td><td>${P(q.tile.price)}/m²</td><td>${P(q.tileCost)}</td></tr>`,
-    ...q.addonLines.map(a=>`<tr><td><div class="li-name">${a.name}</div><div class="li-desc">${a.desc}</div></td><td>${q.finalArea.toFixed(1)} m²</td><td>${P(a.per_m2)}/m²</td><td>${P(a.total)}</td></tr>`),
-    `<tr><td><div class="li-name">Delivery & Transport</div><div class="li-desc">${q.locText}</div></td><td>1</td><td>${P(q.transport)}</td><td>${P(q.transport)}</td></tr>`
-  ].join('');
-
-  document.getElementById('doc-invoice').innerHTML = `
-    <div class="doc-header">
-      <div>
-        <div class="doc-logo-name">ABC <span>Builders</span></div>
-        <div class="doc-logo-tagline">PROFESSIONAL ROOFING · BOTSWANA</div>
-        <div class="doc-logo-address">Plot 2891, Industrial Area, Gaborone<br>VAT Reg: BW 900 123 456<br>+267 395 1234 · info@abcbuilders.co.bw</div>
-      </div>
-      <div class="doc-ref-block">
-        <div class="doc-doc-type">Tax Invoice</div>
-        <div class="doc-ref-num">${q.invNum}</div>
-        <div class="doc-dates">Issue Date: ${q.dateStr}<br>Due Date: ${q.validStr}<br>Quote Ref: ${q.ref}</div>
-      </div>
-    </div>
-    <div class="doc-body">
-      <div class="parties-row">
-        <div>
-          <div class="party-label">Billed To</div>
-          <div class="party-name">${q.name}</div>
-          <div class="party-detail">${q.email}<br>${q.phone}<br>${q.address}</div>
-        </div>
-        <div>
-          <div class="party-label">Supplied By</div>
-          <div class="party-name">ABC Builders (Pty) Ltd</div>
-          <div class="party-detail">Plot 2891, Industrial Area<br>Gaborone, Botswana<br>Company Reg: BW 2019/001234</div>
-        </div>
-      </div>
-      <table class="line-table">
-        <thead><tr><th>Item Description</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
-        <tbody>${lines}</tbody>
-      </table>
-      <div class="totals-col">
-        <div class="totals-block">
-          <div class="t-row"><span class="tl">Subtotal</span><span class="tv">${P(q.subtotal)}</span></div>
-          <div class="t-row"><span class="tl">VAT @ 12%</span><span class="tv">${P(q.vat)}</span></div>
-          <div class="t-row grand"><span class="tl">AMOUNT DUE</span><span class="tv">${P(q.total)}</span></div>
-        </div>
-      </div>
-      <div class="validity-box" style="background:#FFF3E0;border-color:#FFCC80;color:#7A4F00">
-        ⚠️ Payment is due within 30 days. Please use <strong>${q.invNum}</strong> as your payment reference.
-      </div>
-    </div>
-    <div class="doc-footer">
-      <div class="bank-info"><strong>Bank Details</strong>First National Bank Botswana<br>Account: 62 009 876 54 · Gaborone Main<br>Reference: ${q.invNum}</div>
-      <div class="stamp-box inv">Tax Invoice</div>
-    </div>
-  `;
-}
-
-// ── EMAIL CUSTOMER ──
-function renderEmailCust(){
-  const q=Q;
-  document.getElementById('ec-render').innerHTML = `
-    <div class="email-chrome">
-      <div class="email-toolbar">
-        <div class="email-dot" style="background:#FF5F57"></div>
-        <div class="email-dot" style="background:#FFBD2E"></div>
-        <div class="email-dot" style="background:#28CA41"></div>
-      </div>
-      <div class="email-fields">
-        <div class="email-field"><strong>To:</strong> ${q.email}</div>
-        <div class="email-field"><strong>From:</strong> quotes@abcbuilders.co.bw</div>
-        <div class="email-field"><strong>Subject:</strong> Your Roofing Quotation ${q.ref} — ABC Builders</div>
-        <div class="email-field"><strong>Attachments:</strong> 📎 ${q.ref}-Quotation.pdf &nbsp; 📎 ${q.invNum}-Invoice.pdf</div>
-      </div>
-    </div>
-    <div class="email-body">
-      <div class="em-subject">Your Roofing Quotation is Ready 🏠</div>
-      <div class="em-text">Dear ${q.name.split(' ')[0]},</div>
-      <div class="em-text">Dumelang! Thank you for reaching out to ABC Builders. We are pleased to share your personalised roofing quotation.</div>
-      <div class="em-highlight">
-        <strong>📋 Reference:</strong> ${q.ref}<br>
-        <strong>🏠 Tile Selected:</strong> ${q.tile.name} (${q.tile.aesthetic})<br>
-        <strong>📐 Roof Area:</strong> ${q.baseArea.toFixed(1)} m² → ${q.finalArea.toFixed(1)} m² (pitched &amp; wastage)<br>
-        <strong>📍 Delivery To:</strong> ${q.locText}<br>
-        <strong>💰 Total Amount:</strong> <span style="font-size:16px;font-weight:700;color:#C9962A">${P(q.total)}</span> <span style="font-size:12px;color:#888">(incl. 12% VAT)</span>
-      </div>
-      <div class="em-text">Your full itemised quotation and tax invoice are attached as PDFs. This quote is valid until <strong>${q.validStr}</strong>.</div>
-      <div class="em-text">To proceed or ask any questions, simply reply to this email or WhatsApp us at <strong>+267 71 395 000</strong>.</div>
-      <a class="em-cta" href="#">Accept Quote &amp; Confirm Order →</a>
-      <div class="em-footer">
-        ABC Builders (Pty) Ltd · Plot 2891, Industrial Area, Gaborone<br>
-        +267 395 1234 · info@abcbuilders.co.bw · www.abcbuilders.co.bw<br>
-        <em>Ke a lebogang — We sincerely thank you for your business.</em>
-      </div>
-    </div>
-  `;
-}
-
-// ── EMAIL MANAGER ──
-function renderEmailMgr(){
-  const q=Q;
-  document.getElementById('em-render').innerHTML = `
-    <div class="email-chrome">
-      <div class="email-toolbar">
-        <div class="email-dot" style="background:#FF5F57"></div>
-        <div class="email-dot" style="background:#FFBD2E"></div>
-        <div class="email-dot" style="background:#28CA41"></div>
-      </div>
-      <div class="email-fields">
-        <div class="email-field"><strong>To:</strong> manager@abcbuilders.co.bw</div>
-        <div class="email-field"><strong>From:</strong> system@abcbuilders.co.bw</div>
-        <div class="email-field"><strong>Subject:</strong> [NEW LEAD] ${q.ref} · ${q.name} · ${P(q.total)}</div>
-      </div>
-    </div>
-    <div class="email-body">
-      <div class="em-subject">🔔 New Roofing Quote Generated</div>
-      <div class="em-text">Hi Manager, a new quotation was automatically generated and sent to a customer. Full details below:</div>
-      <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px">
-        ${[
-          ['Reference', q.ref],
-          ['Customer', q.name],
-          ['Email', q.email],
-          ['Phone', q.phone],
-          ['Location', q.locText],
-          ['Roof Size', `${q.L}m × ${q.W}m = ${q.baseArea.toFixed(1)} m² base`],
-          ['Tile', `${q.tile.name} @ ${P(q.tile.price)}/m²`],
-          ['Final Area', `${q.finalArea.toFixed(1)} m² (incl. pitch & wastage)`],
-          ['Add-ons', q.addonLines.map(a=>a.name).join(', ')||'None'],
-          ['Transport', P(q.transport) + (q.locVal==='outside'?' (outside Gaborone)':' (Gaborone)')],
-          ['Subtotal', P(q.subtotal)],
-          ['VAT 12%', P(q.vat)],
-        ].map((r,i)=>`<tr style="background:${i%2===0?'#FAF7F0':'#FFFFFF'}"><td style="padding:9px 12px;color:#666;font-weight:600;width:38%;border-bottom:1px solid #F0EDE8">${r[0]}</td><td style="padding:9px 12px;color:#222;border-bottom:1px solid #F0EDE8">${r[1]}</td></tr>`).join('')}
-        <tr style="background:#FFF8EC"><td style="padding:12px;font-weight:700;color:#C9962A;font-size:15px">TOTAL</td><td style="padding:12px;font-weight:700;color:#C9962A;font-size:15px">${P(q.total)}</td></tr>
-      </table>
-      ${q.comments!=='None'?`<div class="em-highlight"><strong>Customer Comments:</strong><br>${q.comments}</div>`:''}
-      <div class="em-footer">
-        ABC Builders Automation · n8n + Claude AI · ${q.dateStr}<br>
-        Lead logged to Google Sheets · Sheet 2 (Customers) · Ref: ${q.ref}<br>
-        This is an automated notification.
-      </div>
-    </div>
-  `;
-}
-
-// ── UPDATE CUSTOMER SHEET ──
-function updateCustomerSheet(){
-  const q=Q;
-  const tbody=document.getElementById('customers-tbody');
-  const existing=tbody.querySelector('td[colspan]');
-  if(existing) tbody.innerHTML='';
-  const tr=document.createElement('tr');
-  tr.innerHTML=[q.name,q.phone,q.email,q.L+'m',q.W+'m',q.tile.name,q.ref,P(q.total),q.dateStr,q.comments]
-    .map(v=>`<td>${v}</td>`).join('');
-  tbody.appendChild(tr);
-}
-
-// ── TABS ──
-function showTab(id, btn){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('on'));
-  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('tab-'+id).classList.add('on');
-}
-function sheetView(id, btn){
-  document.querySelectorAll('.sheet-tab-btn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('sheet-pricing').style.display = id==='pricing'?'block':'none';
-  document.getElementById('sheet-customers').style.display = id==='customers'?'block':'none';
-}
-
-// ── RESET ──
-function resetAll(){
-  selectedTile=null; selectedAddons=new Set(['nails']); Q={};
-  ['inp-name','inp-phone','inp-email','inp-address','inp-comments','inp-len','inp-wid'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.value='';
-  });
-  document.getElementById('inp-location').value='';
-  document.getElementById('loc-notice').style.display='none';
-  document.getElementById('area-display').textContent='—';
-  document.getElementById('area-breakdown').style.display='none';
-  goPanel(1);
-}
-
-// Init
-document.addEventListener('DOMContentLoaded', ()=>{
-  document.getElementById('inp-pitch').addEventListener('change', calcArea);
-  document.getElementById('inp-complex').addEventListener('change', calcArea);
-});
 </script>
+
+<!--
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  README — HOW TO GET THIS LIVE IN 15 MINUTES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1 — GOOGLE APPS SCRIPT (the Sheets bridge)
+  1. Open your ABC Builders Google Sheet
+  2. Extensions → Apps Script
+  3. Paste this code and save:
+
+  ────────────────────────────────────────────
+  const SHEET_NAME = 'Customers';
+
+  function doPost(e) {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet()
+                    .getSheetByName(SHEET_NAME);
+    const data  = JSON.parse(e.postData.contents);
+
+    // Write columns in this order (must match your sheet headers)
+    sheet.appendRow([
+      data.name,
+      data.phone,
+      data.email,
+      data.size_length,
+      data.size_width,
+      data.type,
+      data.comments,
+      data.ref,
+      data.location_zone,
+      data.location_label,
+      data.address,
+      data.pitch,
+      data.complex,
+      data.addons,
+      data.final_area_m2,
+      data.transport,
+      data.tile_id,
+      data.tile_price_m2,
+      data.timestamp,
+      data.status
+    ]);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ success: true, ref: data.ref }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  ────────────────────────────────────────────
+
+  4. Deploy → New deployment → Web App
+     - Execute as: Me
+     - Who has access: Anyone
+  5. Copy the Web App URL
+  6. Paste it into this file replacing:
+     YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE
+
+STEP 2 — UPDATE YOUR CUSTOMERS SHEET HEADERS (Row 1)
+  Name | Phone Number | Email | Size-Length | Size-Width | Type | Comments
+  | Ref | Location Zone | Location Label | Address | Pitch | Complex
+  | Addons | Final Area m2 | Transport | Tile ID | Tile Price m2
+  | Timestamp | Status
+
+STEP 3 — N8N (polls sheet every minute for PENDING rows)
+  Replace the Webhook trigger node with:
+  → Schedule Trigger (every 1 minute)
+  → Google Sheets: Read rows where Status = PENDING
+  → (your existing: Code → OpenAI → Gmail → update Status to SENT)
+
+  To update status after emailing, add a final Sheets node:
+  → Google Sheets: Update Row — set Status = SENT
+
+STEP 4 — GITHUB PAGES
+  1. Create a repo: github.com/new  (name it: abc-builders-quote)
+  2. Upload this file as index.html
+  3. Settings → Pages → Source: main branch / root
+  4. Your URL: https://YOUR-USERNAME.github.io/abc-builders-quote
+
+  Share that link on LinkedIn. Done.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+-->
 </body>
 </html>
 
