@@ -520,9 +520,9 @@ footer {
       <div class="pip-arr">→</div>
       <div class="pip"><span class="pip-dot"></span>Google Sheets</div>
       <div class="pip-arr">→</div>
-      <div class="pip"><span class="pip-dot"></span>n8n Agent</div>
+      <div class="pip"><span class="pip-dot"></span>Agent</div>
       <div class="pip-arr">→</div>
-      <div class="pip"><span class="pip-dot"></span>OpenAI GPT-4o</div>
+      <div class="pip"><span class="pip-dot"></span>OpenAI</div>
       <div class="pip-arr">→</div>
       <div class="pip"><span class="pip-dot"></span>Your Email</div>
     </div>
@@ -761,7 +761,7 @@ footer {
         </div>
         <div class="tl-step">
           <div class="tl-bullet">2</div>
-          <div class="tl-txt"><strong>n8n detects the new row</strong>, fetches your tile price from Sheet 1, and calculates the full quote</div>
+          <div class="tl-txt"><strong>Agent detects the new row</strong>, fetches your tile price from Sheet 1, and calculates the full quote</div>
         </div>
         <div class="tl-step">
           <div class="tl-bullet">3</div>
@@ -785,7 +785,7 @@ footer {
   <div class="footer-txt">
     Plot 2891, Industrial Area, Gaborone, Botswana<br>
     +267 395 1234 · info@abcbuilders.co.bw<br><br>
-    <span style="color:#3a3530;font-size:10px">Built with n8n + OpenAI GPT-4o · Powered by Google Sheets</span>
+    <span style="color:#3a3530;font-size:10px">Built with Agent + OpenAI GPT-4o · Powered by Google Sheets</span>
   </div>
 </footer>
 
@@ -1051,7 +1051,7 @@ async function submitForm() {
 
   // ── Customer fields only — this is ALL that goes to the sheet
   // Columns: Name | Phone Number | Email | Size-Length | Size-Width | Type | Comments
-  //          + extra cols n8n reads: ref, location_zone, location_label, address,
+  //          + extra cols Agent reads: ref, location_zone, location_label, address,
   //            pitch, complex, addons, final_area_m2, transport, timestamp, status
   const row = {
     name:           document.getElementById('inp-name').value.trim(),
@@ -1061,7 +1061,7 @@ async function submitForm() {
     size_width:     W + 'm',
     type:           tile ? tile.name : '',
     comments:       document.getElementById('inp-comments').value.trim() || '',
-    // Extended — for n8n to consume
+    // Extended — for Agent to consume
     ref:            ref,
     location_zone:  locZone,
     location_label: locLabel,
@@ -1109,7 +1109,7 @@ async function submitForm() {
 
   } catch (err) {
     console.error('Submit error:', err);
-    // Still show success — n8n will poll the sheet independently
+    // Still show success — Agent will poll the sheet independently
     document.getElementById('ref-out').textContent       = ref;
     document.getElementById('sc-name').textContent       = row.name;
     document.getElementById('sc-tile').textContent       = tile ? tile.name : '—';
@@ -1202,7 +1202,7 @@ STEP 2 — UPDATE YOUR CUSTOMERS SHEET HEADERS (Row 1)
   | Addons | Final Area m2 | Transport | Tile ID | Tile Price m2
   | Timestamp | Status
 
-STEP 3 — N8N (polls sheet every minute for PENDING rows)
+STEP 3 — Agent (polls sheet every minute for PENDING rows)
   Replace the Webhook trigger node with:
   → Schedule Trigger (every 1 minute)
   → Google Sheets: Read rows where Status = PENDING
